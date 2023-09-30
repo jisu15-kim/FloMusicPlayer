@@ -16,18 +16,27 @@ class MusicPlayer {
     var player: AVPlayer?
     var playerItem: AVPlayerItem?
     var timeObserver: Any?
-    var secondHandler: ((Int) -> Void)?
     var isSeekProgress: Bool = false
     private var playerRateContext = 0
 
     private var playerItemStatusObserver: NSKeyValueObservation?
     private var playerRateObserver: NSKeyValueObservation?
     
-    var playStatus = BehaviorRelay<PlayStatus>(value: .notPlaying)
-    
+    /// 플레이중인 item의 총 길이
     var durationTime: CMTime? {
         self.playerItem?.duration
     }
+    /// 플레이중인 item의 총 길이 (second)
+    var durationSecond: Int? {
+        guard let time = self.durationTime else { return nil }
+        return Int(CMTimeGetSeconds(time))
+    }
+    /// 플레이어중인 아이템의  현재 초
+    let currentSecond = BehaviorRelay<Int>(value: 0)
+    /// 플레이 상태(playing, notPlaying)
+    var playStatus = BehaviorRelay<PlayStatus>(value: .notPlaying)
+    /// 플레이 타임라인의 비율(%)
+    let currentTimelineRatio = BehaviorRelay<Float>(value: 0)
     
     //MARK: - Lifecycle
     private init() {}
@@ -66,10 +75,17 @@ class MusicPlayer {
         // 현재 재생 시간을 1초 간격으로 업데이트합니다.
         let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         self.timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] currentTime in
-            if self?.isSeekProgress == false {
-                let seconds = Int(CMTimeGetSeconds(currentTime))
-                print("🔥\(seconds)")
-                self?.secondHandler?(seconds)
+            guard let self = self else { return }
+            if self.isSeekProgress == false {
+                // 현재 초 구해서 accept
+                let currentSecond = CMTimeGetSeconds(currentTime)
+                self.currentSecond.accept(Int(currentSecond))
+                
+                // 비율 계산
+                guard let duration = self.durationTime else { return }
+                let rawRatio = currentSecond / CMTimeGetSeconds(duration)
+                let value = Float(round(rawRatio * 100) / 100)
+                self.currentTimelineRatio.accept(value)
             }
         }
     }

@@ -1,45 +1,46 @@
 //
-//  ViewController.swift
+//  LyricsController.swift
 //  FloMusicPlayer
 //
-//  Created by 김지수 on 2023/09/26.
+//  Created by 김지수 on 2023/09/30.
 //
 
 import UIKit
-import SnapKit
 
-class ViewController: UIViewController {
+class LyricsController: UIViewController {
     //MARK: - Properties
     let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
-    let seekbar = PlayerSeekbar()
+    let seekbar: PlayerSeekbar
     
-    lazy var tempButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("TEMP BUTTON", for: .normal)
-        button.addTarget(self, action: #selector(nextView), for: .touchUpInside)
-        return button
+    let label: UILabel = {
+        let label = UILabel()
+        label.text = "가사뷰입니다"
+        return label
     }()
     
-    @objc private func nextView() {
-        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width)
-        self.present(lyricsVC, animated: false)
+    //MARK: - Lifecycle
+    init(currentTimelineWidth: CGFloat? = nil) {
+        self.seekbar = PlayerSeekbar()
+        super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .overFullScreen
+        self.modalTransitionStyle = .crossDissolve
     }
     
-    //MARK: - Lifecycle
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.setDismissButton(inset: 16)
         self.setupUI()
         self.seekbar.setupUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let url = "https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com/2020-flo/music.mp3"
+        self.seekbar.configureSeekbar()
         self.seekbar.configureTimelineWidth()
-        MusicPlayer.shared.start(musicUrl: url) { [weak self] in
-            self?.seekbar.configureSeekbar()
-        }
     }
     
     //MARK: - Methods
@@ -67,10 +68,9 @@ class ViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        self.view.addSubview(self.tempButton)
-        self.tempButton.snp.makeConstraints {
+        self.view.addSubview(self.label)
+        label.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
     }
 }
-

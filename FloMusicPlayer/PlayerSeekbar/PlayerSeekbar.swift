@@ -13,14 +13,14 @@ import AVFoundation
 
 class PlayerSeekbar: UIView {
     //MARK: - Properties
-    /// 남은 타임라인 길이
+    /// 남은 타임라인 길이 뷰
     let leftTimelineView: UIView = {
         let view = UIView()
         view.backgroundColor = .darkGray.withAlphaComponent(0.3)
         return view
     }()
     
-    /// 위를 덮는 실제 타임라인
+    /// 위를 덮는 실제 타임라인 뷰
     let timelineView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemIndigo
@@ -77,30 +77,42 @@ class PlayerSeekbar: UIView {
     var totalTimelineWidth: CGFloat {
         return self.timeLineStackView.frame.width
     }
-    
-    /// 플레이어의 현재 초
-    let currentSecond: PublishRelay<Int>
     /// 타임라인의 position
-    let timelinePoint: BehaviorRelay<CGFloat>
+    lazy var timelinePoint = BehaviorRelay<CGFloat>(value: self.secondToTimelineWidth(second: self.currentSecond))
     /// 타임라인 탭 여부
     let isTimelineTapped: BehaviorRelay<Bool>
     /// 타임라인의 position을 초 단위로 환산
     var secondTimelineTapped: Int? {
-        guard let totalSecond = self.totalSecond else { return nil }
+        guard let totalSecond = self.musicDuration else { return nil }
         let ratio = self.totalTimelineWidth / self.timelinePoint.value
         let tappedSecond = Int(totalSecond / ratio)
         return tappedSecond
     }
     /// 총 길이
-    var totalSecond: Double?
+    var musicDuration: Double? {
+        guard let duration = MusicPlayer.shared.durationTime else { return nil }
+        let totalSeconds = CMTimeGetSeconds(duration)
+        return Double(totalSeconds)
+    }
+    /// 현재 재생중인 초
+    var currentSecond: Int {
+        return MusicPlayer.shared.currentSecond.value
+    }
     
     //MARK: - Lifecycle
     init() {
-        self.timelinePoint = BehaviorRelay(value: 0)
         self.isTimelineTapped = BehaviorRelay(value: false)
-        self.currentSecond = PublishRelay()
+        
+//        let currentRatio = MusicPlayer.shared.currentTimelineRatio.value
+//
+//         전달 받은 데이터가 있으면 설정 : 없으면 0 으로 초기화
+//        if let timelineWidth = currentTimelineWidth {
+//            self.timeLineWidthConstraint = self.timelineView.widthAnchor.constraint(equalToConstant: timelineWidth)
+//        } else {
+//
+//        }
+        
         super.init(frame: .zero)
-        self.setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -110,18 +122,16 @@ class PlayerSeekbar: UIView {
     //MARK: - Bind
     func bind() {
         // 현재 AVPlayer에서 받아온 시간을 바인딩
-        self.currentSecond
+        MusicPlayer.shared.currentSecond
             .bind { [weak self] second in
-                guard let self = self,
-                      let totalSecond = self.totalSecond else { return }
+                guard let self = self else { return }
                 // 현재시간 변경
                 let timecode = self.secondToTimecode(second: second)
                 self.startTimeLabel.text = timecode
                 // 타임라인 변경
                 guard self.isTimelineTapped.value == false else { return }
-                let ratio = totalSecond / Double(second)
-                let timelinePosition = self.totalTimelineWidth / ratio
-                self.timeLineWidthConstraint.constant = timelinePosition
+                let timeLineWidth = self.secondToTimelineWidth(second: second)
+                self.timeLineWidthConstraint.constant = timeLineWidth
             }
             .disposed(by: disposeBag)
         
@@ -129,6 +139,7 @@ class PlayerSeekbar: UIView {
         self.timelinePoint
             .bind { [weak self] point in
                 guard let self = self else { return }
+                print("timelinePoint: \(point)")
                 // 타임라인 위치 설정
                 self.timeLineWidthConstraint.constant = point
                 // 타임코드 가 슬라이드를 따라가도록 설정
@@ -192,7 +203,7 @@ class PlayerSeekbar: UIView {
     }
     
     //MARK: - Methods
-    private func setupUI() {
+    func setupUI() {
         // 시작시간
         self.addSubview(self.startTimeLabel)
         self.startTimeLabel.snp.makeConstraints {
@@ -221,31 +232,21 @@ class PlayerSeekbar: UIView {
             $0.bottom.equalTo(self.timeLineStackView.snp.top).inset(-8)
         }
         
-        // 타임라인 Width 0 으로 설정
+    }
+    
+    func configureTimelineWidth() {
+        // 타임라인 Width 설정하기
+        let ratio = MusicPlayer.shared.currentTimelineRatio.value
+        let width = self.frame.width * CGFloat(ratio)
+        self.timeLineWidthConstraint.constant = width
         self.timeLineWidthConstraint.isActive = true
-        self.timeLineWidthConstraint.constant = 0
     }
     
     //
     func configureSeekbar() {
         self.bind()
-        guard let cmDuration = MusicPlayer.shared.durationTime else { return }
-        let duration = cmTimeToTimecode(cmTime: cmDuration)
-        self.endTimeLabel.text = duration
-        
-        // secondHandler 입력
-        MusicPlayer.shared.secondHandler = { [weak self] currentSecond in
-            self?.currentSecond.accept(currentSecond)
-        }
-    }
-    
-    private func cmTimeToTimecode(cmTime: CMTime) -> String {
-        let totalSeconds = CMTimeGetSeconds(cmTime)
-        self.totalSecond = Double(totalSeconds)
-        let minutes = Int(totalSeconds / 60)
-        let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-        let formattedString = String(format: "%02d:%02d", minutes, seconds)
-        return formattedString
+        guard let duration = self.musicDuration else { return }
+        self.endTimeLabel.text = self.secondToTimecode(second: Int(duration))
     }
     
     private func acceptTimeline(withTouch touch: UITouch?) {
@@ -301,5 +302,12 @@ class PlayerSeekbar: UIView {
         let seconds = second % 60
         let formattedString = String(format: "%02d:%02d", minutes, seconds)
         return formattedString
+    }
+    
+    private func secondToTimelineWidth(second: Int) -> CGFloat {
+        guard let totalSecond = self.musicDuration else { return .zero }
+        let ratio = totalSecond / Double(second)
+        let timelineWidth = self.totalTimelineWidth / ratio
+        return timelineWidth
     }
 }
