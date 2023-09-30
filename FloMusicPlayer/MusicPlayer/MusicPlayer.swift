@@ -36,7 +36,7 @@ class MusicPlayer {
     /// 플레이 상태(playing, notPlaying)
     var playStatus = BehaviorRelay<PlayStatus>(value: .notPlaying)
     /// 플레이 타임라인의 비율(%)
-    let currentTimelineRatio = BehaviorRelay<Float>(value: 0)
+    let currentPlaybackRatio = BehaviorRelay<Float>(value: 0)
     
     //MARK: - Lifecycle
     private init() {}
@@ -84,8 +84,8 @@ class MusicPlayer {
                 // 비율 계산
                 guard let duration = self.durationTime else { return }
                 let rawRatio = currentSecond / CMTimeGetSeconds(duration)
-                let value = Float(round(rawRatio * 100) / 100)
-                self.currentTimelineRatio.accept(value)
+                let value = Float(round(rawRatio * 1000) / 1000)
+                self.currentPlaybackRatio.accept(value)
             }
         }
     }

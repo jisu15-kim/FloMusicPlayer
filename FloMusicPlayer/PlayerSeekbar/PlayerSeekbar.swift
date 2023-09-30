@@ -37,7 +37,7 @@ class PlayerSeekbar: UIView {
         return stack
     }()
     
-    let startTimeLabel: UILabel = {
+    let currentPlaybackTimeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .systemIndigo
@@ -46,7 +46,7 @@ class PlayerSeekbar: UIView {
         return label
     }()
     
-    let endTimeLabel: UILabel = {
+    let durationTimeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .systemGray
@@ -78,13 +78,14 @@ class PlayerSeekbar: UIView {
         return self.timeLineStackView.frame.width
     }
     /// 타임라인의 position
-    lazy var timelinePoint = BehaviorRelay<CGFloat>(value: self.secondToTimelineWidth(second: self.currentSecond))
+    let timelinePoint = PublishRelay<CGFloat>()
+    var lastTappedPoint: CGFloat = 0
     /// 타임라인 탭 여부
-    let isTimelineTapped: BehaviorRelay<Bool>
+    let isTimelineTapped: BehaviorRelay<Bool?>
     /// 타임라인의 position을 초 단위로 환산
     var secondTimelineTapped: Int? {
         guard let totalSecond = self.musicDuration else { return nil }
-        let ratio = self.totalTimelineWidth / self.timelinePoint.value
+        let ratio = self.totalTimelineWidth / self.lastTappedPoint
         let tappedSecond = Int(totalSecond / ratio)
         return tappedSecond
     }
@@ -101,17 +102,7 @@ class PlayerSeekbar: UIView {
     
     //MARK: - Lifecycle
     init() {
-        self.isTimelineTapped = BehaviorRelay(value: false)
-        
-//        let currentRatio = MusicPlayer.shared.currentTimelineRatio.value
-//
-//         전달 받은 데이터가 있으면 설정 : 없으면 0 으로 초기화
-//        if let timelineWidth = currentTimelineWidth {
-//            self.timeLineWidthConstraint = self.timelineView.widthAnchor.constraint(equalToConstant: timelineWidth)
-//        } else {
-//
-//        }
-        
+        self.isTimelineTapped = BehaviorRelay(value: nil)
         super.init(frame: .zero)
     }
     
@@ -121,17 +112,25 @@ class PlayerSeekbar: UIView {
     
     //MARK: - Bind
     func bind() {
-        // 현재 AVPlayer에서 받아온 시간을 바인딩
+        /// AVPlayer에서 받아온 플레이중인 현재 시간 바인딩
+        /// -> 현재 재생중인 시간 에 적용
         MusicPlayer.shared.currentSecond
             .bind { [weak self] second in
                 guard let self = self else { return }
                 // 현재시간 변경
                 let timecode = self.secondToTimecode(second: second)
-                self.startTimeLabel.text = timecode
-                // 타임라인 변경
-                guard self.isTimelineTapped.value == false else { return }
-                let timeLineWidth = self.secondToTimelineWidth(second: second)
-                self.timeLineWidthConstraint.constant = timeLineWidth
+                self.currentPlaybackTimeLabel.text = timecode
+            }
+            .disposed(by: disposeBag)
+        
+        /// AVPlayer에서 받아온 Playback 비율 바인딩
+        /// -> 타임라인 뷰 width에 적용
+        MusicPlayer.shared.currentPlaybackRatio
+            .bind { [weak self] ratio in
+                guard let self = self,
+                      self.isTimelineTapped.value != true else { return }
+                let width = self.totalTimelineWidth * CGFloat(ratio)
+                self.timeLineWidthConstraint.constant = width
             }
             .disposed(by: disposeBag)
         
@@ -139,7 +138,7 @@ class PlayerSeekbar: UIView {
         self.timelinePoint
             .bind { [weak self] point in
                 guard let self = self else { return }
-                print("timelinePoint: \(point)")
+                self.lastTappedPoint = point
                 // 타임라인 위치 설정
                 self.timeLineWidthConstraint.constant = point
                 // 타임코드 가 슬라이드를 따라가도록 설정
@@ -154,7 +153,8 @@ class PlayerSeekbar: UIView {
         // 타임라인 제스처 탭 이벤트
         self.isTimelineTapped
             .bind { [weak self] isTapped in
-                guard let self = self else { return }
+                guard let self = self,
+                      let isTapped = isTapped else { return }
                 self.configureTimelineTapped(isTapped: isTapped)
                 self.seekTimecode.isHidden = !isTapped
                 
@@ -205,15 +205,15 @@ class PlayerSeekbar: UIView {
     //MARK: - Methods
     func setupUI() {
         // 시작시간
-        self.addSubview(self.startTimeLabel)
-        self.startTimeLabel.snp.makeConstraints {
+        self.addSubview(self.currentPlaybackTimeLabel)
+        self.currentPlaybackTimeLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(5)
             $0.bottom.equalToSuperview()
         }
         
         // 종료시간
-        self.addSubview(self.endTimeLabel)
-        self.endTimeLabel.snp.makeConstraints {
+        self.addSubview(self.durationTimeLabel)
+        self.durationTimeLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(5)
             $0.bottom.equalToSuperview()
         }
@@ -222,7 +222,7 @@ class PlayerSeekbar: UIView {
         self.addSubview(self.timeLineStackView)
         self.timeLineStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(5)
-            $0.bottom.equalTo(self.startTimeLabel.snp.top).inset(-5)
+            $0.bottom.equalTo(self.currentPlaybackTimeLabel.snp.top).inset(-5)
             $0.height.equalTo(5)
         }
         
@@ -231,22 +231,14 @@ class PlayerSeekbar: UIView {
             $0.centerX.equalTo(self.timeLineStackView)
             $0.bottom.equalTo(self.timeLineStackView.snp.top).inset(-8)
         }
-        
-    }
-    
-    func configureTimelineWidth() {
-        // 타임라인 Width 설정하기
-        let ratio = MusicPlayer.shared.currentTimelineRatio.value
-        let width = self.frame.width * CGFloat(ratio)
-        self.timeLineWidthConstraint.constant = width
         self.timeLineWidthConstraint.isActive = true
     }
     
-    //
     func configureSeekbar() {
         self.bind()
+        self.timeLineWidthConstraint.isActive = true
         guard let duration = self.musicDuration else { return }
-        self.endTimeLabel.text = self.secondToTimecode(second: Int(duration))
+        self.durationTimeLabel.text = self.secondToTimecode(second: Int(duration))
     }
     
     private func acceptTimeline(withTouch touch: UITouch?) {

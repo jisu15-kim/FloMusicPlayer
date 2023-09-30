@@ -40,7 +40,6 @@ class LyricsController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.seekbar.configureSeekbar()
-        self.seekbar.configureTimelineWidth()
     }
     
     //MARK: - Methods
