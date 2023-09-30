@@ -6,28 +6,42 @@
 //
 
 import UIKit
+import RxSwift
 
 class PlayerControlButton: UIButton {
     //MARK: - Properties
-    var handler: (() -> Void)?
-    
+    private var playButtonType: PlayerControlButtonType
+    private var playStatus: PlayStatus {
+        return MusicPlayer.shared.playStatus.value
+    }
+    private let disposeBag = DisposeBag()
     //MARK: - Lifecycle
     init(buttonType: PlayerControlButtonType, handler: (() -> Void)? = nil) {
-        self.handler = handler
+        self.playButtonType = buttonType
         super.init(frame: .zero)
-        self.setImage(buttonType.buttonImage, for: .normal)
+        self.setImage(buttonType.getButtonImage(playStatus: self.playStatus), for: .normal)
         self.addTarget(self, action: #selector(didButtonTapped), for: .touchUpInside)
         self.tintColor = .white
-        
+        if buttonType == .play {
+            self.bindStatus()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    //MARK: - Bind(Play인 경우에만)
+    private func bindStatus() {
+        MusicPlayer.shared.playStatus
+            .bind { [weak self] status in
+                guard let self = self else { return }
+                self.setImage(self.playButtonType.getButtonImage(playStatus: status), for: .normal)
+            }
+            .disposed(by: disposeBag)
+    }
     
     //MARK: - Methods
     @objc private func didButtonTapped() {
-        print("button Tapped")
-        print(MusicPlayer.shared.player?.currentItem?.duration)
+        self.playButtonType.buttonAction(playStatus: self.playStatus)
     }
 }

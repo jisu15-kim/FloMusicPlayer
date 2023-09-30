@@ -24,6 +24,7 @@
 		F97549C42AC3400800DA5AFD /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C32AC3400800DA5AFD /* RxSwift */; };
 		F97549C72AC3402200DA5AFD /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C62AC3402200DA5AFD /* RxGesture */; };
 		F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DE31652AC59F840028885E /* MusicPlayer.swift */; };
+		F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		F97549B92AC1E49000DA5AFD /* PlayerControlButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButtonType.swift; sourceTree = "<group>"; };
 		F97549BC2AC1EAD800DA5AFD /* PlayerSeekbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSeekbar.swift; sourceTree = "<group>"; };
 		F9DE31652AC59F840028885E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				F9DE31652AC59F840028885E /* MusicPlayer.swift */,
+				F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */,
 			);
 			path = MusicPlayer;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				F97549B82AC1E2EF00DA5AFD /* PlayerControlButton.swift in Sources */,
 				F97549BD2AC1EAD800DA5AFD /* PlayerSeekbar.swift in Sources */,
 				F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */,
+				F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */,
 				F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */,
 				F975499C2AC1E0D900DA5AFD /* SceneDelegate.swift in Sources */,
 			);

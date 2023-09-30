@@ -21,10 +21,10 @@ enum PlayerControlButtonType {
     case playOrder
     
     /// 버튼의 이미지
-    var buttonImage: UIImage? {
+    func getButtonImage(playStatus: PlayStatus) -> UIImage? {
         switch self {
         case .play:
-            return UIImage(systemName: "play.fill", withConfiguration: imageConfig)
+            return UIImage(systemName: playStatus.iconImageName, withConfiguration: imageConfig)
         case .backward:
             return UIImage(systemName: "backward.end.fill", withConfiguration: imageConfig)
         case .forward:
@@ -55,5 +55,20 @@ enum PlayerControlButtonType {
     /// 버튼 인스턴스
     var getButton: UIButton {
         return PlayerControlButton(buttonType: self)
+    }
+    
+    func buttonAction(playStatus: PlayStatus) {
+        switch self {
+        case .play:
+            playStatus.handler?()
+        case .backward:
+            print("뒤로가기")
+        case .forward:
+            print("앞으로 가기")
+        case .repeat:
+            print("반복")
+        case .playOrder:
+            print("PLAY ORDER")
+        }
     }
 }
