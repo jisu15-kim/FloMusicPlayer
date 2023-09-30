@@ -8,10 +8,12 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+class PlayController: UIViewController {
     //MARK: - Properties
     let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
+    
     let seekbar = PlayerSeekbar()
+    let footerStackView = PlayerFooterStackView()
     
     lazy var tempButton: UIButton = {
         let button = UIButton(type: .system)
@@ -43,9 +45,15 @@ class ViewController: UIViewController {
     private func setupUI() {
         self.view.backgroundColor = .systemBackground
         
+        self.view.addSubview(self.footerStackView)
+        self.footerStackView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.height.equalTo(30)
+        }
+        
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalCentering
         
         self.controlPanel.forEach {
             stackView.addArrangedSubview($0.getButton)
@@ -53,14 +61,15 @@ class ViewController: UIViewController {
         
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.bottom.equalTo(self.footerStackView.snp.top).inset(-5)
             $0.height.equalTo(70)
         }
         
         self.view.addSubview(self.seekbar)
         self.seekbar.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalTo(stackView.snp.top)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(stackView.snp.top).inset(10)
             $0.height.equalTo(40)
         }
         

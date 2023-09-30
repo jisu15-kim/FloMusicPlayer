@@ -211,21 +211,21 @@ class PlayerSeekbar: UIView {
         // 시작시간
         self.addSubview(self.currentPlaybackTimeLabel)
         self.currentPlaybackTimeLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(5)
+            $0.leading.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
         // 종료시간
         self.addSubview(self.durationTimeLabel)
         self.durationTimeLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(5)
+            $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
         // 타임라인 스택뷰
         self.addSubview(self.timeLineStackView)
         self.timeLineStackView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.currentPlaybackTimeLabel.snp.top).inset(-5)
             $0.height.equalTo(5)
         }

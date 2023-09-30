@@ -9,12 +9,12 @@ import UIKit
 
 class LyricsController: UIViewController {
     //MARK: - Properties
-    let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
+    let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder, .playList]
     let seekbar: PlayerSeekbar
     
     let label: UILabel = {
         let label = UILabel()
-        label.text = "가사뷰입니다"
+        label.text = "가사 들어갈 예정"
         return label
     }()
     
@@ -56,12 +56,12 @@ class LyricsController: UIViewController {
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(70)
+            $0.height.equalTo(40)
         }
         
         self.view.addSubview(self.seekbar)
         self.seekbar.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(stackView.snp.top)
             $0.height.equalTo(40)
         }

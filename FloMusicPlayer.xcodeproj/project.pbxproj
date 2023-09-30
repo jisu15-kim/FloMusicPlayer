@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97549992AC1E0D900DA5AFD /* AppDelegate.swift */; };
 		F975499C2AC1E0D900DA5AFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */; };
-		F975499E2AC1E0D900DA5AFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499D2AC1E0D900DA5AFD /* ViewController.swift */; };
+		F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499D2AC1E0D900DA5AFD /* PlayController.swift */; };
 		F97549A12AC1E0D900DA5AFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F975499F2AC1E0D900DA5AFD /* Main.storyboard */; };
 		F97549A32AC1E0DA00DA5AFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */; };
 		F97549A62AC1E0DA00DA5AFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F97549A42AC1E0DA00DA5AFD /* LaunchScreen.storyboard */; };
@@ -27,13 +27,14 @@
 		F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */; };
 		F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */; };
 		F9ED8B222AC7FC6600515973 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B212AC7FC6600515973 /* UIViewController+Ext.swift */; };
+		F9ED8B252AC8252C00515973 /* PlayerFooterStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F97549962AC1E0D900DA5AFD /* FloMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97549992AC1E0D900DA5AFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F975499D2AC1E0D900DA5AFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F975499D2AC1E0D900DA5AFD /* PlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayController.swift; sourceTree = "<group>"; };
 		F97549A02AC1E0D900DA5AFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F97549A52AC1E0DA00DA5AFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayStatus.swift; sourceTree = "<group>"; };
 		F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsController.swift; sourceTree = "<group>"; };
 		F9ED8B212AC7FC6600515973 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerFooterStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,14 +90,13 @@
 				F9DE31642AC59F6D0028885E /* MusicPlayer */,
 				F97549BB2AC1EAB100DA5AFD /* PlayerSeekbar */,
 				F97549B62AC1E2CD00DA5AFD /* PlayerControlButtons */,
+				F9ED8B232AC824F900515973 /* PlayerScene */,
 				F97549992AC1E0D900DA5AFD /* AppDelegate.swift */,
 				F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */,
-				F975499D2AC1E0D900DA5AFD /* ViewController.swift */,
 				F975499F2AC1E0D900DA5AFD /* Main.storyboard */,
 				F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */,
 				F97549A42AC1E0DA00DA5AFD /* LaunchScreen.storyboard */,
 				F97549A72AC1E0DA00DA5AFD /* Info.plist */,
-				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
 			);
 			path = FloMusicPlayer;
 			sourceTree = "<group>";
@@ -140,6 +141,16 @@
 				F9ED8B212AC7FC6600515973 /* UIViewController+Ext.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		F9ED8B232AC824F900515973 /* PlayerScene */ = {
+			isa = PBXGroup;
+			children = (
+				F975499D2AC1E0D900DA5AFD /* PlayController.swift */,
+				F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */,
+				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
+			);
+			path = PlayerScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,7 +240,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F975499E2AC1E0D900DA5AFD /* ViewController.swift in Sources */,
+				F9ED8B252AC8252C00515973 /* PlayerFooterStackView.swift in Sources */,
+				F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */,
 				F97549BA2AC1E49000DA5AFD /* PlayerControlButtonType.swift in Sources */,
 				F97549B82AC1E2EF00DA5AFD /* PlayerControlButton.swift in Sources */,
 				F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */,

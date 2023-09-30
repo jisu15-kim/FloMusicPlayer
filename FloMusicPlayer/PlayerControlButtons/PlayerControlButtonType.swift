@@ -19,6 +19,8 @@ enum PlayerControlButtonType {
     case `repeat`
     /// 재생 순서 버튼
     case playOrder
+    /// 재생목록 버튼
+    case playList
     
     /// 버튼의 이미지
     func getButtonImage(playStatus: PlayStatus) -> UIImage? {
@@ -33,6 +35,8 @@ enum PlayerControlButtonType {
             return UIImage(systemName: "repeat", withConfiguration: imageConfig)
         case .playOrder:
             return UIImage(systemName: "shuffle", withConfiguration: imageConfig)
+        case .playList:
+            return UIImage(systemName: "text.append", withConfiguration: imageConfig)
         }
     }
     
@@ -41,13 +45,9 @@ enum PlayerControlButtonType {
         switch self {
         case .play:
             return UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
-        case .backward:
+        case .backward, .forward, .playList:
             return UIImage.SymbolConfiguration(pointSize: 25, weight: .thin)
-        case .forward:
-            return UIImage.SymbolConfiguration(pointSize: 25, weight: .thin)
-        case .repeat:
-            return UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
-        case .playOrder:
+        case .repeat, .playOrder:
             return UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
         }
     }
@@ -69,6 +69,8 @@ enum PlayerControlButtonType {
             print("반복")
         case .playOrder:
             print("PLAY ORDER")
+        case .playList:
+            print("PlayList")
         }
     }
 }
