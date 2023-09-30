@@ -67,13 +67,15 @@ class PlayerSeekbar: UIView {
     
     private let disposeBag = DisposeBag()
     
+    /// 현재 시간과 총 시간 표시 여부
+    let isShowTimeInfo: Bool
     /// 실제 타임라인의 width
     lazy var timeLineWidthConstraint = self.timelineView.widthAnchor.constraint(equalToConstant: 0)
-    
+    /// SeekTimeCode의 width
     var seekTimecodeWidth: CGFloat {
         return self.seekTimecode.frame.width
     }
-    
+    /// 타임라인의 총 width
     var totalTimelineWidth: CGFloat {
         return self.timeLineStackView.frame.width
     }
@@ -101,9 +103,11 @@ class PlayerSeekbar: UIView {
     }
     
     //MARK: - Lifecycle
-    init() {
+    init(isShowTimeInfo: Bool = true) {
+        self.isShowTimeInfo = isShowTimeInfo
         self.isTimelineTapped = BehaviorRelay(value: nil)
         super.init(frame: .zero)
+        self.setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -232,6 +236,14 @@ class PlayerSeekbar: UIView {
             $0.bottom.equalTo(self.timeLineStackView.snp.top).inset(-8)
         }
         self.timeLineWidthConstraint.isActive = true
+        
+        if isShowTimeInfo {
+            self.currentPlaybackTimeLabel.isHidden = false
+            self.durationTimeLabel.isHidden = false
+        } else {
+            self.currentPlaybackTimeLabel.isHidden = true
+            self.durationTimeLabel.isHidden = true
+        }
     }
     
     func configureSeekbar() {

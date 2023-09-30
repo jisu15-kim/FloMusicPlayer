@@ -20,7 +20,7 @@ class LyricsController: UIViewController {
     
     //MARK: - Lifecycle
     init(currentTimelineWidth: CGFloat? = nil) {
-        self.seekbar = PlayerSeekbar()
+        self.seekbar = PlayerSeekbar(isShowTimeInfo: false)
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .overFullScreen
         self.modalTransitionStyle = .crossDissolve
@@ -34,7 +34,6 @@ class LyricsController: UIViewController {
         super.viewDidLoad()
         self.setDismissButton(inset: 16)
         self.setupUI()
-        self.seekbar.setupUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {

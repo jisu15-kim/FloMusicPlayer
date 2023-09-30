@@ -28,9 +28,7 @@ class ViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.setupUI()
-        self.seekbar.setupUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
