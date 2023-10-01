@@ -10,7 +10,6 @@
 		F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97549992AC1E0D900DA5AFD /* AppDelegate.swift */; };
 		F975499C2AC1E0D900DA5AFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */; };
 		F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499D2AC1E0D900DA5AFD /* PlayController.swift */; };
-		F97549A12AC1E0D900DA5AFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F975499F2AC1E0D900DA5AFD /* Main.storyboard */; };
 		F97549A32AC1E0DA00DA5AFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */; };
 		F97549A62AC1E0DA00DA5AFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F97549A42AC1E0DA00DA5AFD /* LaunchScreen.storyboard */; };
 		F97549AF2AC1E13F00DA5AFD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F97549AE2AC1E13F00DA5AFD /* SnapKit */; };
@@ -23,11 +22,17 @@
 		F97549C22AC3400800DA5AFD /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C12AC3400800DA5AFD /* RxRelay */; };
 		F97549C42AC3400800DA5AFD /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C32AC3400800DA5AFD /* RxSwift */; };
 		F97549C72AC3402200DA5AFD /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C62AC3402200DA5AFD /* RxGesture */; };
+		F9A725632AC890AC00826D91 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A725622AC890AC00826D91 /* PlayerViewModel.swift */; };
+		F9B2BC412AC98A5D0029B964 /* LyricsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */; };
+		F9B2BC432AC98BE30029B964 /* LyricsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC422AC98BE30029B964 /* LyricsCell.swift */; };
 		F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DE31652AC59F840028885E /* MusicPlayer.swift */; };
 		F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */; };
 		F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */; };
 		F9ED8B222AC7FC6600515973 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B212AC7FC6600515973 /* UIViewController+Ext.swift */; };
 		F9ED8B252AC8252C00515973 /* PlayerFooterStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */; };
+		F9ED8B2C2AC87C4300515973 /* MusicRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B2B2AC87C4300515973 /* MusicRouter.swift */; };
+		F9ED8B2E2AC87CEE00515973 /* MusicNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B2D2AC87CEE00515973 /* MusicNetworkManager.swift */; };
+		F9ED8B302AC87D3400515973 /* PlayableMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B2F2AC87D3400515973 /* PlayableMusic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,18 +40,23 @@
 		F97549992AC1E0D900DA5AFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F975499D2AC1E0D900DA5AFD /* PlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayController.swift; sourceTree = "<group>"; };
-		F97549A02AC1E0D900DA5AFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F97549A52AC1E0DA00DA5AFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F97549A72AC1E0DA00DA5AFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F97549B72AC1E2EF00DA5AFD /* PlayerControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButton.swift; sourceTree = "<group>"; };
 		F97549B92AC1E49000DA5AFD /* PlayerControlButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButtonType.swift; sourceTree = "<group>"; };
 		F97549BC2AC1EAD800DA5AFD /* PlayerSeekbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSeekbar.swift; sourceTree = "<group>"; };
+		F9A725622AC890AC00826D91 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTableView.swift; sourceTree = "<group>"; };
+		F9B2BC422AC98BE30029B964 /* LyricsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsCell.swift; sourceTree = "<group>"; };
 		F9DE31652AC59F840028885E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayStatus.swift; sourceTree = "<group>"; };
 		F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsController.swift; sourceTree = "<group>"; };
 		F9ED8B212AC7FC6600515973 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerFooterStackView.swift; sourceTree = "<group>"; };
+		F9ED8B2B2AC87C4300515973 /* MusicRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRouter.swift; sourceTree = "<group>"; };
+		F9ED8B2D2AC87CEE00515973 /* MusicNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicNetworkManager.swift; sourceTree = "<group>"; };
+		F9ED8B2F2AC87D3400515973 /* PlayableMusic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayableMusic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,13 +97,12 @@
 			isa = PBXGroup;
 			children = (
 				F9ED8B1F2AC7FC4900515973 /* Util */,
-				F9DE31642AC59F6D0028885E /* MusicPlayer */,
-				F97549BB2AC1EAB100DA5AFD /* PlayerSeekbar */,
-				F97549B62AC1E2CD00DA5AFD /* PlayerControlButtons */,
+				F9ED8B292AC87AAC00515973 /* Common */,
+				F9ED8B2A2AC87ABE00515973 /* Network */,
 				F9ED8B232AC824F900515973 /* PlayerScene */,
+				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
 				F97549992AC1E0D900DA5AFD /* AppDelegate.swift */,
 				F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */,
-				F975499F2AC1E0D900DA5AFD /* Main.storyboard */,
 				F97549A22AC1E0DA00DA5AFD /* Assets.xcassets */,
 				F97549A42AC1E0DA00DA5AFD /* LaunchScreen.storyboard */,
 				F97549A72AC1E0DA00DA5AFD /* Info.plist */,
@@ -116,6 +125,15 @@
 				F97549BC2AC1EAD800DA5AFD /* PlayerSeekbar.swift */,
 			);
 			path = PlayerSeekbar;
+			sourceTree = "<group>";
+		};
+		F9B2BC3F2AC98A520029B964 /* LyricsTableView */ = {
+			isa = PBXGroup;
+			children = (
+				F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */,
+				F9B2BC422AC98BE30029B964 /* LyricsCell.swift */,
+			);
+			path = LyricsTableView;
 			sourceTree = "<group>";
 		};
 		F9DE31642AC59F6D0028885E /* MusicPlayer */ = {
@@ -146,11 +164,56 @@
 		F9ED8B232AC824F900515973 /* PlayerScene */ = {
 			isa = PBXGroup;
 			children = (
-				F975499D2AC1E0D900DA5AFD /* PlayController.swift */,
-				F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */,
-				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
+				F9ED8B282AC87A6200515973 /* Model */,
+				F9ED8B272AC87A5E00515973 /* View */,
+				F9ED8B262AC87A5300515973 /* ViewModel */,
 			);
 			path = PlayerScene;
+			sourceTree = "<group>";
+		};
+		F9ED8B262AC87A5300515973 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F9A725622AC890AC00826D91 /* PlayerViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F9ED8B272AC87A5E00515973 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F975499D2AC1E0D900DA5AFD /* PlayController.swift */,
+				F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F9ED8B282AC87A6200515973 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F9ED8B2F2AC87D3400515973 /* PlayableMusic.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F9ED8B292AC87AAC00515973 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				F9B2BC3F2AC98A520029B964 /* LyricsTableView */,
+				F9DE31642AC59F6D0028885E /* MusicPlayer */,
+				F97549BB2AC1EAB100DA5AFD /* PlayerSeekbar */,
+				F97549B62AC1E2CD00DA5AFD /* PlayerControlButtons */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		F9ED8B2A2AC87ABE00515973 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F9ED8B2B2AC87C4300515973 /* MusicRouter.swift */,
+				F9ED8B2D2AC87CEE00515973 /* MusicNetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,7 +292,6 @@
 			files = (
 				F97549A62AC1E0DA00DA5AFD /* LaunchScreen.storyboard in Resources */,
 				F97549A32AC1E0DA00DA5AFD /* Assets.xcassets in Resources */,
-				F97549A12AC1E0D900DA5AFD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,11 +303,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9ED8B252AC8252C00515973 /* PlayerFooterStackView.swift in Sources */,
+				F9B2BC432AC98BE30029B964 /* LyricsCell.swift in Sources */,
 				F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */,
 				F97549BA2AC1E49000DA5AFD /* PlayerControlButtonType.swift in Sources */,
 				F97549B82AC1E2EF00DA5AFD /* PlayerControlButton.swift in Sources */,
 				F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */,
+				F9ED8B302AC87D3400515973 /* PlayableMusic.swift in Sources */,
+				F9A725632AC890AC00826D91 /* PlayerViewModel.swift in Sources */,
 				F97549BD2AC1EAD800DA5AFD /* PlayerSeekbar.swift in Sources */,
+				F9ED8B2E2AC87CEE00515973 /* MusicNetworkManager.swift in Sources */,
+				F9B2BC412AC98A5D0029B964 /* LyricsTableView.swift in Sources */,
+				F9ED8B2C2AC87C4300515973 /* MusicRouter.swift in Sources */,
 				F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */,
 				F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */,
 				F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */,
@@ -257,14 +325,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F975499F2AC1E0D900DA5AFD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F97549A02AC1E0D900DA5AFD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F97549A42AC1E0DA00DA5AFD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -402,10 +462,10 @@
 				INFOPLIST_FILE = FloMusicPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -431,10 +491,10 @@
 				INFOPLIST_FILE = FloMusicPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

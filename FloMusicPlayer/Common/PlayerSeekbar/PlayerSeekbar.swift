@@ -99,7 +99,7 @@ class PlayerSeekbar: UIView {
     }
     /// 현재 재생중인 초
     var currentSecond: Int {
-        return MusicPlayer.shared.currentSecond.value
+        return Int(MusicPlayer.shared.currentSecond.value)
     }
     
     //MARK: - Lifecycle
@@ -122,7 +122,7 @@ class PlayerSeekbar: UIView {
             .bind { [weak self] second in
                 guard let self = self else { return }
                 // 현재시간 변경
-                let timecode = self.secondToTimecode(second: second)
+                let timecode = self.secondToTimecode(second: Int(second))
                 self.currentPlaybackTimeLabel.text = timecode
             }
             .disposed(by: disposeBag)

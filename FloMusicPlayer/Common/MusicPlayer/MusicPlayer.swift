@@ -32,7 +32,7 @@ class MusicPlayer {
         return Int(CMTimeGetSeconds(time))
     }
     /// 플레이어중인 아이템의  현재 초
-    let currentSecond = BehaviorRelay<Int>(value: 0)
+    let currentSecond = BehaviorRelay<Double>(value: 0)
     /// 플레이 상태(playing, notPlaying)
     var playStatus = BehaviorRelay<PlayStatus>(value: .notPlaying)
     /// 플레이 타임라인의 비율(%)
@@ -79,8 +79,7 @@ class MusicPlayer {
             if self.isSeekProgress == false {
                 // 현재 초 구해서 accept
                 let currentSecond = CMTimeGetSeconds(currentTime)
-                self.currentSecond.accept(Int(currentSecond))
-                
+                self.currentSecond.accept(currentSecond)
                 // 비율 계산
                 guard let duration = self.durationTime else { return }
                 let rawRatio = currentSecond / CMTimeGetSeconds(duration)

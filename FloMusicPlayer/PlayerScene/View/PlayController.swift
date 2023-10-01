@@ -7,13 +7,18 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class PlayController: UIViewController {
     //MARK: - Properties
-    let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
+    let viewModel = PlayerViewModel()
+    let disposeBag = DisposeBag()
     
+    let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
     let seekbar = PlayerSeekbar()
     let footerStackView = PlayerFooterStackView()
+    
+    lazy var lyricsTableView = LyricsTableView(dataSource: self.viewModel.lyrics)
     
     lazy var tempButton: UIButton = {
         let button = UIButton(type: .system)
@@ -23,22 +28,31 @@ class PlayController: UIViewController {
     }()
     
     @objc private func nextView() {
-        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width)
-        self.present(lyricsVC, animated: false)
+        self.lyricsTableView.scrollToRow(at: IndexPath(row: 3, section: 0), at: .bottom, animated: true)
+//        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width)
+//        self.present(lyricsVC, animated: false)
     }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        self.bind()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let url = "https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com/2020-flo/music.mp3"
-        MusicPlayer.shared.start(musicUrl: url) { [weak self] in
-            self?.seekbar.configureSeekbar()
-        }
+    //MARK: - Bind
+    private func bind() {
+        self.viewModel.playableMusic
+            .bind { [weak self] music in
+                guard let self = self,
+                      let music = music else { return }
+                MusicPlayer.shared.start(musicUrl: music.file) {
+                    self.seekbar.configureSeekbar()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        self.viewModel.requestMusicForPlay()
     }
     
     //MARK: - Methods
@@ -70,6 +84,13 @@ class PlayController: UIViewController {
         self.seekbar.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(stackView.snp.top).inset(10)
+            $0.height.equalTo(40)
+        }
+        
+        self.view.addSubview(self.lyricsTableView)
+        self.lyricsTableView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(seekbar.snp.top).inset(-50)
             $0.height.equalTo(40)
         }
         
