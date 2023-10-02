@@ -35,6 +35,11 @@ class LyricsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.configureHighlight(isHighlight: false)
+    }
+    
     //MARK: - Methods
     private func setupUI() {
         self.contentView.addSubview(self.lyricLabel)
@@ -46,5 +51,15 @@ class LyricsCell: UITableViewCell {
     private func configure() {
         guard let item = self.lyricItem else { return }
         self.lyricLabel.text = item.lyric
+    }
+    
+    func configureHighlight(isHighlight: Bool) {
+        if isHighlight {
+            self.lyricLabel.textColor = .white
+            self.lyricLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        } else {
+            self.lyricLabel.textColor = .lightGray
+            self.lyricLabel.font = .systemFont(ofSize: 14, weight: .regular)
+        }
     }
 }

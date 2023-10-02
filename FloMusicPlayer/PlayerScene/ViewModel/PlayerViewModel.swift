@@ -22,7 +22,6 @@ class PlayerViewModel {
             guard let music = music else { return }
             self?.playableMusic.accept(music)
             self?.lyrics.accept(music.lyrics)
-            dump(music.lyrics)
         }
     }
 }
