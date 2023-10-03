@@ -18,7 +18,7 @@ class PlayController: UIViewController {
     let seekbar = PlayerSeekbar()
     let footerStackView = PlayerFooterStackView()
     
-    lazy var lyricsTableView = LyricsTableView(dataSource: self.viewModel.lyrics)
+    lazy var lyricsTableView = LyricsTableView(config: .inPlayerView, dataSource: self.viewModel.lyrics)
     
     lazy var tempButton: UIButton = {
         let button = UIButton(type: .system)
@@ -28,9 +28,8 @@ class PlayController: UIViewController {
     }()
     
     @objc private func nextView() {
-        self.lyricsTableView.scrollToRow(at: IndexPath(row: 3, section: 0), at: .bottom, animated: true)
-//        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width)
-//        self.present(lyricsVC, animated: false)
+        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width, viewModel: self.viewModel)
+        self.present(lyricsVC, animated: false)
     }
     
     //MARK: - Lifecycle

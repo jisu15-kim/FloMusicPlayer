@@ -11,16 +11,14 @@ class LyricsController: UIViewController {
     //MARK: - Properties
     let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder, .playList]
     let seekbar: PlayerSeekbar
+    let viewModel: PlayerViewModel
     
-    let label: UILabel = {
-        let label = UILabel()
-        label.text = "가사 들어갈 예정"
-        return label
-    }()
+    lazy var lyricsTableView = LyricsTableView(config: .inLyricView, dataSource: self.viewModel.lyrics)
     
     //MARK: - Lifecycle
-    init(currentTimelineWidth: CGFloat? = nil) {
+    init(currentTimelineWidth: CGFloat? = nil, viewModel: PlayerViewModel) {
         self.seekbar = PlayerSeekbar(isShowTimeInfo: false)
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .overFullScreen
         self.modalTransitionStyle = .crossDissolve
@@ -66,9 +64,11 @@ class LyricsController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        self.view.addSubview(self.label)
-        label.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        self.view.addSubview(self.lyricsTableView)
+        self.lyricsTableView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(seekbar.snp.top).inset(-5)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
     }
 }

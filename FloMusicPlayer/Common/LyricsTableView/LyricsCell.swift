@@ -11,10 +11,12 @@ class LyricsCell: UITableViewCell {
     //MARK: - Properties
     static let identifier = "LyricsCell"
     
+    var lyricsConfig: LyricsTypeConfig?
+    
     let lyricLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .lightGray
+        label.textColor = .darkGray
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
     }()
@@ -49,17 +51,18 @@ class LyricsCell: UITableViewCell {
     }
     
     private func configure() {
-        guard let item = self.lyricItem else { return }
+        guard let item = self.lyricItem,
+              let config = self.lyricsConfig else { return }
         self.lyricLabel.text = item.lyric
+        self.lyricLabel.textAlignment = config.textAlighment
+        self.lyricLabel.font = config.lyricFont
     }
     
     func configureHighlight(isHighlight: Bool) {
         if isHighlight {
             self.lyricLabel.textColor = .white
-            self.lyricLabel.font = .systemFont(ofSize: 14, weight: .bold)
         } else {
-            self.lyricLabel.textColor = .lightGray
-            self.lyricLabel.font = .systemFont(ofSize: 14, weight: .regular)
+            self.lyricLabel.textColor = .darkGray
         }
     }
 }

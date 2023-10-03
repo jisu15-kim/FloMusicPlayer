@@ -25,6 +25,7 @@
 		F9A725632AC890AC00826D91 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A725622AC890AC00826D91 /* PlayerViewModel.swift */; };
 		F9B2BC412AC98A5D0029B964 /* LyricsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */; };
 		F9B2BC432AC98BE30029B964 /* LyricsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC422AC98BE30029B964 /* LyricsCell.swift */; };
+		F9B2BC452ACC5F240029B964 /* LyricsTypeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC442ACC5F240029B964 /* LyricsTypeConfig.swift */; };
 		F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DE31652AC59F840028885E /* MusicPlayer.swift */; };
 		F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */; };
 		F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */; };
@@ -49,6 +50,7 @@
 		F9A725622AC890AC00826D91 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTableView.swift; sourceTree = "<group>"; };
 		F9B2BC422AC98BE30029B964 /* LyricsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsCell.swift; sourceTree = "<group>"; };
+		F9B2BC442ACC5F240029B964 /* LyricsTypeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTypeConfig.swift; sourceTree = "<group>"; };
 		F9DE31652AC59F840028885E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		F9ED8B1B2AC7EFE000515973 /* PlayStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayStatus.swift; sourceTree = "<group>"; };
 		F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsController.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			children = (
 				F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */,
 				F9B2BC422AC98BE30029B964 /* LyricsCell.swift */,
+				F9B2BC442ACC5F240029B964 /* LyricsTypeConfig.swift */,
 			);
 			path = LyricsTableView;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				F97549B82AC1E2EF00DA5AFD /* PlayerControlButton.swift in Sources */,
 				F9ED8B1E2AC7FAC100515973 /* LyricsController.swift in Sources */,
 				F9ED8B302AC87D3400515973 /* PlayableMusic.swift in Sources */,
+				F9B2BC452ACC5F240029B964 /* LyricsTypeConfig.swift in Sources */,
 				F9A725632AC890AC00826D91 /* PlayerViewModel.swift in Sources */,
 				F97549BD2AC1EAD800DA5AFD /* PlayerSeekbar.swift in Sources */,
 				F9ED8B2E2AC87CEE00515973 /* MusicNetworkManager.swift in Sources */,

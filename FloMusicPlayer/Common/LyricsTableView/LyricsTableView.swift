@@ -12,18 +12,20 @@ import RxCocoa
 
 class LyricsTableView: UITableView {
     //MARK: - Properties
+    let lyricViewConfig: LyricsTypeConfig
     let playableMusicInfo: BehaviorRelay<[PlayableMusicLyricInfo]>
     var currentHighlitingIndex: Int?
     
     private let disposeBag = DisposeBag()
     
     //MARK: - Lifecycle
-    init(dataSource: BehaviorRelay<[PlayableMusicLyricInfo]>) {
+    init(config: LyricsTypeConfig, dataSource: BehaviorRelay<[PlayableMusicLyricInfo]>) {
+        self.lyricViewConfig = config
         self.playableMusicInfo = dataSource
         super.init(frame: .zero, style: .plain)
         self.delegate = self
         self.separatorStyle = .none
-        self.isScrollEnabled = false
+        self.isScrollEnabled = config.isScrollEnable
         self.register(LyricsCell.self, forCellReuseIdentifier: LyricsCell.identifier)
         self.setupUI()
         self.bind()
@@ -36,10 +38,11 @@ class LyricsTableView: UITableView {
     //MARK: - Bind
     private func bind() {
         self.playableMusicInfo
-            .bind(to: self.rx.items) { tableView, index, item in
+            .bind(to: self.rx.items) { [weak self] tableView, index, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: LyricsCell.identifier, for: IndexPath(row: index, section: 0)) as? LyricsCell else { return UITableViewCell() }
+                cell.lyricsConfig = self?.lyricViewConfig
                 cell.lyricItem = item
-                if self.currentHighlitingIndex == index {
+                if self?.currentHighlitingIndex == index {
                     cell.configureHighlight(isHighlight: true)
                 }
                 cell.selectionStyle = .none
@@ -84,14 +87,19 @@ class LyricsTableView: UITableView {
         // 데이터가 있다면?
         guard let index = index,
               let lyric = lyric else {
-            // 데이터가 없다면 맨 처음으로 이동
-            self.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            // 데이터가 없다면 가사가 나오기도 전 이라는 것 -> 맨 처음으로 이동
+            if !self.lyricViewConfig.isScrollEnable {
+                self.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            }
             return
         }
         
         print("현재 가사: \(lyric.lyric), Index: \(index)")
         
-        self.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+        if !self.lyricViewConfig.isScrollEnable {
+            self.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+        }
+        
         /// 현재 보여지는 셀 for문 돌려서
         /// 현재의 가사인 경우 하이라이트 enable, 아닌 경우 disable
         for cell in self.visibleCells {
@@ -104,6 +112,6 @@ class LyricsTableView: UITableView {
 
 extension LyricsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 20
+        return self.lyricViewConfig.heightForRowAt
     }
 }
