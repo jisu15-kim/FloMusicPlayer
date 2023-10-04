@@ -108,9 +108,9 @@ class MusicPlayer {
         
     }
     
-    func seek(seekSecond: Int) {
+    func seek(seekSecond: Double) {
         self.isSeekProgress = true
-        let seekTime = CMTime(value: CMTimeValue(seekSecond), timescale: 1)
+        let seekTime = CMTime(value: CMTimeValue(seekSecond * 1000), timescale: 1000)
         self.player?.currentItem?.seek(to: seekTime, completionHandler: { [weak self] isDone in
             self?.isSeekProgress = false
         })

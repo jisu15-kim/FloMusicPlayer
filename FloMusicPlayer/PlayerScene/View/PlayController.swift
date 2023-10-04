@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxGesture
 import RxSwift
 
 class PlayController: UIViewController {
@@ -19,18 +20,6 @@ class PlayController: UIViewController {
     let footerStackView = PlayerFooterStackView()
     
     lazy var lyricsTableView = LyricsTableView(config: .inPlayerView, dataSource: self.viewModel.lyrics)
-    
-    lazy var tempButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("TEMP BUTTON", for: .normal)
-        button.addTarget(self, action: #selector(nextView), for: .touchUpInside)
-        return button
-    }()
-    
-    @objc private func nextView() {
-        let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width, viewModel: self.viewModel)
-        self.present(lyricsVC, animated: false)
-    }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -48,6 +37,15 @@ class PlayController: UIViewController {
                 MusicPlayer.shared.start(musicUrl: music.file) {
                     self.seekbar.configureSeekbar()
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        self.lyricsTableView.rx.tapGesture()
+            .when(.recognized)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width, viewModel: self.viewModel)
+                self.present(lyricsVC, animated: false)
             }
             .disposed(by: disposeBag)
         
@@ -91,11 +89,6 @@ class PlayController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(seekbar.snp.top).inset(-50)
             $0.height.equalTo(40)
-        }
-        
-        self.view.addSubview(self.tempButton)
-        self.tempButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
         }
     }
 }

@@ -56,19 +56,19 @@ class LyricsController: UIViewController {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(40)
         }
+
+        self.view.addSubview(self.lyricsTableView)
+        self.lyricsTableView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(stackView.snp.top).inset(-50)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
         
         self.view.addSubview(self.seekbar)
         self.seekbar.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(stackView.snp.top)
             $0.height.equalTo(40)
-        }
-        
-        self.view.addSubview(self.lyricsTableView)
-        self.lyricsTableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(seekbar.snp.top).inset(-5)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
     }
 }

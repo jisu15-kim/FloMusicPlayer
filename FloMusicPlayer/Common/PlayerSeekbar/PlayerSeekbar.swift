@@ -165,7 +165,7 @@ class PlayerSeekbar: UIView {
                 // 플레이 되고 있는 음악 컨트롤하기 (타임라인에서 손을 뗄 때)
                 if let tappedSecond = self.secondTimelineTapped,
                    isTapped == false {
-                    MusicPlayer.shared.seek(seekSecond: tappedSecond)
+                    MusicPlayer.shared.seek(seekSecond: Double(tappedSecond))
                 }
             }
             .disposed(by: disposeBag)

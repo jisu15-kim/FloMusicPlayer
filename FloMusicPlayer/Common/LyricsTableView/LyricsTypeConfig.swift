@@ -44,4 +44,12 @@ extension LyricsTypeConfig {
         case .inLyricView: return .left
         }
     }
+    
+    /// 우측 버튼 보이는 여부
+    var isShowControlButton: Bool {
+        switch self {
+        case .inPlayerView: return false
+        case .inLyricView: return true
+        }
+    }
 }

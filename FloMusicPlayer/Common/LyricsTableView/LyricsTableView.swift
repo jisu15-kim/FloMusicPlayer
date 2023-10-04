@@ -50,6 +50,13 @@ class LyricsTableView: UITableView {
             }
             .disposed(by: disposeBag)
         
+        self.rx.modelSelected(PlayableMusicLyricInfo.self)
+            .bind { lyric in
+                guard let second = lyric.second else { return }
+                MusicPlayer.shared.seek(seekSecond: second)
+            }
+            .disposed(by: disposeBag)
+        
         MusicPlayer.shared.currentSecond
             .bind { [weak self] second in
                 self?.configureTimecode(currentSecond: second)
@@ -70,7 +77,7 @@ class LyricsTableView: UITableView {
         var currentIndex: Int?
         
         for (index, lyric) in lyrics.enumerated() {
-            if let second = lyric.second, currentSecond > second {
+            if let second = lyric.second, currentSecond >= second {
                 currentLyric = lyric
                 currentIndex = index
             } else {
@@ -94,7 +101,7 @@ class LyricsTableView: UITableView {
             return
         }
         
-        print("현재 가사: \(lyric.lyric), Index: \(index)")
+//        print("현재 가사: \(lyric.lyric), Index: \(index)")
         
         if !self.lyricViewConfig.isScrollEnable {
             self.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
