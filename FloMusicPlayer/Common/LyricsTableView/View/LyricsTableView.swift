@@ -10,11 +10,20 @@ import RxSwift
 import RxRelay
 import RxCocoa
 
-class LyricsTableView: UITableView {
+class LyricsTableView: UIView {
     //MARK: - Properties
     let lyricViewConfig: LyricsTypeConfig
     let playableMusicInfo: BehaviorRelay<[PlayableMusicLyricInfo]>
     var currentHighlitingIndex: Int?
+    
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.isScrollEnabled = self.lyricViewConfig.isScrollEnable
+        tableView.register(LyricsCell.self, forCellReuseIdentifier: LyricsCell.identifier)
+        return tableView
+    }()
     
     private let disposeBag = DisposeBag()
     
@@ -22,11 +31,7 @@ class LyricsTableView: UITableView {
     init(config: LyricsTypeConfig, dataSource: BehaviorRelay<[PlayableMusicLyricInfo]>) {
         self.lyricViewConfig = config
         self.playableMusicInfo = dataSource
-        super.init(frame: .zero, style: .plain)
-        self.delegate = self
-        self.separatorStyle = .none
-        self.isScrollEnabled = config.isScrollEnable
-        self.register(LyricsCell.self, forCellReuseIdentifier: LyricsCell.identifier)
+        super.init(frame: .zero)
         self.setupUI()
         self.bind()
     }
@@ -38,7 +43,7 @@ class LyricsTableView: UITableView {
     //MARK: - Bind
     private func bind() {
         self.playableMusicInfo
-            .bind(to: self.rx.items) { [weak self] tableView, index, item in
+            .bind(to: self.tableView.rx.items) { [weak self] tableView, index, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: LyricsCell.identifier, for: IndexPath(row: index, section: 0)) as? LyricsCell else { return UITableViewCell() }
                 cell.lyricsConfig = self?.lyricViewConfig
                 cell.lyricItem = item
@@ -50,7 +55,7 @@ class LyricsTableView: UITableView {
             }
             .disposed(by: disposeBag)
         
-        self.rx.modelSelected(PlayableMusicLyricInfo.self)
+        self.tableView.rx.modelSelected(PlayableMusicLyricInfo.self)
             .bind { lyric in
                 guard let second = lyric.second else { return }
                 MusicPlayer.shared.seek(seekSecond: second)
@@ -67,6 +72,20 @@ class LyricsTableView: UITableView {
     //MARK: - Methods
     private func setupUI() {
         self.backgroundColor = .clear
+        
+        self.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        if self.lyricViewConfig == .inLyricView {
+            let buttonStack = LyricsControlButtonStackView()
+            self.addSubview(buttonStack)
+            buttonStack.snp.makeConstraints {
+                $0.trailing.top.equalToSuperview()
+                $0.width.height.equalTo(30)
+            }
+        }
     }
     
     // 옵저버에서 획득한 초에 맞는 가사를 꺼냄
@@ -96,7 +115,7 @@ class LyricsTableView: UITableView {
               let lyric = lyric else {
             // 데이터가 없다면 가사가 나오기도 전 이라는 것 -> 맨 처음으로 이동
             if !self.lyricViewConfig.isScrollEnable {
-                self.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             }
             return
         }
@@ -104,12 +123,12 @@ class LyricsTableView: UITableView {
 //        print("현재 가사: \(lyric.lyric), Index: \(index)")
         
         if !self.lyricViewConfig.isScrollEnable {
-            self.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+            self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
         }
         
         /// 현재 보여지는 셀 for문 돌려서
         /// 현재의 가사인 경우 하이라이트 enable, 아닌 경우 disable
-        for cell in self.visibleCells {
+        for cell in self.tableView.visibleCells {
             guard let cell = cell as? LyricsCell else { return }
             let isHighlight = cell.lyricItem?.second == lyric.second
             cell.configureHighlight(isHighlight: isHighlight)
