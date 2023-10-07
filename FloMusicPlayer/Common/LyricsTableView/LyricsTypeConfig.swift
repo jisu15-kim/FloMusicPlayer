@@ -29,6 +29,13 @@ extension LyricsTypeConfig {
         }
     }
     
+    var isAutoScrollEnable: Bool {
+        switch self {
+        case .inPlayerView: return true
+        case .inLyricView: return false
+        }
+    }
+    
     /// 텍스트 폰트
     var lyricFont: UIFont {
         switch self {

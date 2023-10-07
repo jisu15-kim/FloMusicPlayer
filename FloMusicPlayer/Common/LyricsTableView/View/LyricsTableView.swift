@@ -12,8 +12,10 @@ import RxCocoa
 
 class LyricsTableView: UIView {
     //MARK: - Properties
+    weak var delegate: LyricsTableViewDelegate?
     let viewModel: LyricsViewModel
     var currentHighlitingIndex: Int?
+    var isUserTouching = false
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -27,8 +29,9 @@ class LyricsTableView: UIView {
     private let disposeBag = DisposeBag()
     
     //MARK: - Lifecycle
-    init(viewModel: LyricsViewModel) {
+    init(viewModel: LyricsViewModel, delegate: LyricsTableViewDelegate? = nil) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(frame: .zero)
         self.setupUI()
         self.bind()
@@ -54,9 +57,27 @@ class LyricsTableView: UIView {
             .disposed(by: disposeBag)
         
         self.tableView.rx.modelSelected(PlayableMusicLyricInfo.self)
-            .bind { lyric in
-                guard let second = lyric.second else { return }
-                MusicPlayer.shared.seek(seekSecond: second)
+            .bind { [weak self] lyric in
+                guard let self = self else { return }
+                
+                if self.viewModel.tapToSeekStatus.value == .enable {
+                    guard let second = lyric.second else { return }
+                    MusicPlayer.shared.seek(seekSecond: second)
+                } else {
+                    self.delegate?.needViewDismiss()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        self.tableView.rx.didScroll
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                let autoScrollStatus = self.viewModel.autoScrollStatus.value
+                
+                // 오토 스크롤 enable / 유저 touching 상태인 경우 disable로
+                if autoScrollStatus == .enable && self.isUserTouching {
+                    self.viewModel.autoScrollStatus.accept(.disable)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -65,6 +86,15 @@ class LyricsTableView: UIView {
                 self?.configureTimecode(currentSecond: second)
             }
             .disposed(by: disposeBag)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("터치!")
+        self.isUserTouching = true
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.isUserTouching = false
     }
     
     //MARK: - Methods
@@ -77,11 +107,13 @@ class LyricsTableView: UIView {
         }
         
         if self.viewModel.lyricViewConfig == .inLyricView {
-            let buttonStack = LyricsControlButtonStackView()
+            let buttonStack = LyricsControlButtonStackView(
+                autoScrollStatus: self.viewModel.autoScrollStatus,
+                tapToSeekStatus: self.viewModel.tapToSeekStatus)
             self.addSubview(buttonStack)
             buttonStack.snp.makeConstraints {
-                $0.trailing.top.equalToSuperview()
-                $0.width.height.equalTo(30)
+                $0.trailing.equalToSuperview()
+                $0.top.equalToSuperview().inset(20)
             }
         }
     }
@@ -108,11 +140,18 @@ class LyricsTableView: UIView {
     
     // 하이라이트 할 index와 가사를 세팅
     private func setLyricCellHighlight(index: Int?, lyric: PlayableMusicLyricInfo?) {
+        
+        // 오토 스크롤 상태인지 체크
+        var isAutoScrollEnable = self.viewModel.lyricViewConfig.isAutoScrollEnable
+        if self.viewModel.lyricViewConfig == .inLyricView {
+            isAutoScrollEnable = self.viewModel.autoScrollStatus.value.value
+        }
+        
         // 데이터가 있다면?
         guard let index = index,
               let lyric = lyric else {
             // 데이터가 없다면 가사가 나오기도 전 이라는 것 -> 맨 처음으로 이동
-            if !self.viewModel.lyricViewConfig.isScrollEnable {
+            if isAutoScrollEnable {
                 self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             }
             return
@@ -120,7 +159,7 @@ class LyricsTableView: UIView {
         
 //        print("현재 가사: \(lyric.lyric), Index: \(index)")
         
-        if !self.viewModel.lyricViewConfig.isScrollEnable {
+        if isAutoScrollEnable {
             self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
         }
         

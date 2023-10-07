@@ -13,7 +13,7 @@ class LyricsController: UIViewController {
     let seekbar: PlayerSeekbar
     let viewModel: PlayerViewModel
     
-    lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inLyricView, dataSource: self.viewModel.lyrics))
+    lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inLyricView, dataSource: self.viewModel.lyrics), delegate: self)
     
     //MARK: - Lifecycle
     init(currentTimelineWidth: CGFloat? = nil, viewModel: PlayerViewModel) {
@@ -70,5 +70,11 @@ class LyricsController: UIViewController {
             $0.bottom.equalTo(stackView.snp.top)
             $0.height.equalTo(40)
         }
+    }
+}
+
+extension LyricsController: LyricsTableViewDelegate {
+    func needViewDismiss() {
+        self.dismiss(animated: false)
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F94802592ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */; };
+		F973E27D2AD1D6E100BF150B /* LyricsTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */; };
 		F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97549992AC1E0D900DA5AFD /* AppDelegate.swift */; };
 		F975499C2AC1E0D900DA5AFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */; };
 		F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499D2AC1E0D900DA5AFD /* PlayController.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsControlButtonStackView.swift; sourceTree = "<group>"; };
+		F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTableViewDelegate.swift; sourceTree = "<group>"; };
 		F97549962AC1E0D900DA5AFD /* FloMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97549992AC1E0D900DA5AFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				F9B2BC422AC98BE30029B964 /* LyricsCell.swift */,
 				F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */,
 				F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */,
+				F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				F9ED8B252AC8252C00515973 /* PlayerFooterStackView.swift in Sources */,
 				F9B2BC432AC98BE30029B964 /* LyricsCell.swift in Sources */,
 				F9E10BE92AD1AE89007CBFD9 /* LyricsViewModel.swift in Sources */,
+				F973E27D2AD1D6E100BF150B /* LyricsTableViewDelegate.swift in Sources */,
 				F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */,
 				F94802592ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift in Sources */,
 				F97549BA2AC1E49000DA5AFD /* PlayerControlButtonType.swift in Sources */,
