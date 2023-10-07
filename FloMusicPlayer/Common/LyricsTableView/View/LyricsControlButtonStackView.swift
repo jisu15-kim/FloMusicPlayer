@@ -7,6 +7,18 @@
 
 import UIKit
 
+enum ControlButtonStatus {
+    case enable
+    case disable
+    
+    var tintColor: UIColor {
+        switch self {
+        case .enable: return .systemIndigo
+        case .disable: return .darkGray
+        }
+    }
+}
+
 class LyricsControlButtonStackView: UIStackView {
     //MARK: - Properties
     let scrollToggleButton: UIButton = {

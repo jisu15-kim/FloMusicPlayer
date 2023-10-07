@@ -13,7 +13,7 @@ class LyricsController: UIViewController {
     let seekbar: PlayerSeekbar
     let viewModel: PlayerViewModel
     
-    lazy var lyricsTableView = LyricsTableView(config: .inLyricView, dataSource: self.viewModel.lyrics)
+    lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inLyricView, dataSource: self.viewModel.lyrics))
     
     //MARK: - Lifecycle
     init(currentTimelineWidth: CGFloat? = nil, viewModel: PlayerViewModel) {

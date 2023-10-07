@@ -12,15 +12,14 @@ import RxCocoa
 
 class LyricsTableView: UIView {
     //MARK: - Properties
-    let lyricViewConfig: LyricsTypeConfig
-    let playableMusicInfo: BehaviorRelay<[PlayableMusicLyricInfo]>
+    let viewModel: LyricsViewModel
     var currentHighlitingIndex: Int?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.isScrollEnabled = self.lyricViewConfig.isScrollEnable
+        tableView.isScrollEnabled = self.viewModel.lyricViewConfig.isScrollEnable
         tableView.register(LyricsCell.self, forCellReuseIdentifier: LyricsCell.identifier)
         return tableView
     }()
@@ -28,9 +27,8 @@ class LyricsTableView: UIView {
     private let disposeBag = DisposeBag()
     
     //MARK: - Lifecycle
-    init(config: LyricsTypeConfig, dataSource: BehaviorRelay<[PlayableMusicLyricInfo]>) {
-        self.lyricViewConfig = config
-        self.playableMusicInfo = dataSource
+    init(viewModel: LyricsViewModel) {
+        self.viewModel = viewModel
         super.init(frame: .zero)
         self.setupUI()
         self.bind()
@@ -42,10 +40,10 @@ class LyricsTableView: UIView {
     
     //MARK: - Bind
     private func bind() {
-        self.playableMusicInfo
+        self.viewModel.playableMusicInfo
             .bind(to: self.tableView.rx.items) { [weak self] tableView, index, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: LyricsCell.identifier, for: IndexPath(row: index, section: 0)) as? LyricsCell else { return UITableViewCell() }
-                cell.lyricsConfig = self?.lyricViewConfig
+                cell.lyricsConfig = self?.viewModel.lyricViewConfig
                 cell.lyricItem = item
                 if self?.currentHighlitingIndex == index {
                     cell.configureHighlight(isHighlight: true)
@@ -78,7 +76,7 @@ class LyricsTableView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        if self.lyricViewConfig == .inLyricView {
+        if self.viewModel.lyricViewConfig == .inLyricView {
             let buttonStack = LyricsControlButtonStackView()
             self.addSubview(buttonStack)
             buttonStack.snp.makeConstraints {
@@ -90,7 +88,7 @@ class LyricsTableView: UIView {
     
     // 옵저버에서 획득한 초에 맞는 가사를 꺼냄
     private func configureTimecode(currentSecond: Double) {
-        let lyrics = self.playableMusicInfo.value
+        let lyrics = self.viewModel.playableMusicInfo.value
         
         var currentLyric: PlayableMusicLyricInfo?
         var currentIndex: Int?
@@ -114,7 +112,7 @@ class LyricsTableView: UIView {
         guard let index = index,
               let lyric = lyric else {
             // 데이터가 없다면 가사가 나오기도 전 이라는 것 -> 맨 처음으로 이동
-            if !self.lyricViewConfig.isScrollEnable {
+            if !self.viewModel.lyricViewConfig.isScrollEnable {
                 self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             }
             return
@@ -122,7 +120,7 @@ class LyricsTableView: UIView {
         
 //        print("현재 가사: \(lyric.lyric), Index: \(index)")
         
-        if !self.lyricViewConfig.isScrollEnable {
+        if !self.viewModel.lyricViewConfig.isScrollEnable {
             self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
         }
         
@@ -138,6 +136,6 @@ class LyricsTableView: UIView {
 
 extension LyricsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.lyricViewConfig.heightForRowAt
+        return self.viewModel.lyricViewConfig.heightForRowAt
     }
 }

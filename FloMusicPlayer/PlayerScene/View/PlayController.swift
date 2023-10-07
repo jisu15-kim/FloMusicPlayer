@@ -19,7 +19,7 @@ class PlayController: UIViewController {
     let seekbar = PlayerSeekbar()
     let footerStackView = PlayerFooterStackView()
     
-    lazy var lyricsTableView = LyricsTableView(config: .inPlayerView, dataSource: self.viewModel.lyrics)
+    lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inPlayerView, dataSource: self.viewModel.lyrics))
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
