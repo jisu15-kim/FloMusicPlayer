@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F94802592ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */; };
 		F973E27D2AD1D6E100BF150B /* LyricsTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */; };
+		F973E27F2AD30DB500BF150B /* PlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F973E27E2AD30DB500BF150B /* PlayerInfoView.swift */; };
 		F975499A2AC1E0D900DA5AFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97549992AC1E0D900DA5AFD /* AppDelegate.swift */; };
 		F975499C2AC1E0D900DA5AFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */; };
 		F975499E2AC1E0D900DA5AFD /* PlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975499D2AC1E0D900DA5AFD /* PlayController.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsControlButtonStackView.swift; sourceTree = "<group>"; };
 		F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTableViewDelegate.swift; sourceTree = "<group>"; };
+		F973E27E2AD30DB500BF150B /* PlayerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfoView.swift; sourceTree = "<group>"; };
 		F97549962AC1E0D900DA5AFD /* FloMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97549992AC1E0D900DA5AFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F975499B2AC1E0D900DA5AFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			children = (
 				F975499D2AC1E0D900DA5AFD /* PlayController.swift */,
 				F9ED8B242AC8252C00515973 /* PlayerFooterStackView.swift */,
+				F973E27E2AD30DB500BF150B /* PlayerInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				F97549BD2AC1EAD800DA5AFD /* PlayerSeekbar.swift in Sources */,
 				F9ED8B2E2AC87CEE00515973 /* MusicNetworkManager.swift in Sources */,
 				F9B2BC412AC98A5D0029B964 /* LyricsTableView.swift in Sources */,
+				F973E27F2AD30DB500BF150B /* PlayerInfoView.swift in Sources */,
 				F9ED8B2C2AC87C4300515973 /* MusicRouter.swift in Sources */,
 				F9DE31662AC59F840028885E /* MusicPlayer.swift in Sources */,
 				F9ED8B1C2AC7EFE000515973 /* PlayStatus.swift in Sources */,

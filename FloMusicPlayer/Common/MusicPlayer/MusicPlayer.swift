@@ -113,6 +113,10 @@ class MusicPlayer {
         let seekTime = CMTime(value: CMTimeValue(seekSecond * 1000), timescale: 1000)
         self.player?.currentItem?.seek(to: seekTime, completionHandler: { [weak self] isDone in
             self?.isSeekProgress = false
+            
+            if self?.playStatus.value == .notPlaying {
+                self?.resume()
+            }
         })
     }
 }

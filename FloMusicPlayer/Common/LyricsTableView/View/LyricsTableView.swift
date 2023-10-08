@@ -160,7 +160,7 @@ class LyricsTableView: UIView {
 //        print("현재 가사: \(lyric.lyric), Index: \(index)")
         
         if isAutoScrollEnable {
-            self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+            self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: self.viewModel.lyricViewConfig.authScrollposition, animated: true)
         }
         
         /// 현재 보여지는 셀 for문 돌려서
@@ -176,5 +176,9 @@ class LyricsTableView: UIView {
 extension LyricsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.viewModel.lyricViewConfig.heightForRowAt
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.viewModel.autoScrollStatus.accept(.disable)
     }
 }

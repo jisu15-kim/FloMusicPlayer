@@ -59,4 +59,11 @@ extension LyricsTypeConfig {
         case .inLyricView: return true
         }
     }
+    
+    var authScrollposition: UITableView.ScrollPosition {
+        switch self {
+        case .inPlayerView: return .top
+        case .inLyricView: return .middle
+        }
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import SnapKit
 import RxGesture
 import RxSwift
@@ -21,6 +22,17 @@ class PlayController: UIViewController {
     
     lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inPlayerView, dataSource: self.viewModel.lyrics))
     
+    let albumCoverImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.backgroundColor = .clear
+        iv.layer.cornerRadius = 10
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    lazy var playerInfoView = PlayerInfoView(textAlignment: .center)
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +46,18 @@ class PlayController: UIViewController {
             .bind { [weak self] music in
                 guard let self = self,
                       let music = music else { return }
+                // 음악 컨트롤
                 MusicPlayer.shared.start(musicUrl: music.file) {
                     self.seekbar.configureSeekbar()
                 }
+                
+                // 곡명, 아티스트명
+                self.playerInfoView.configureData(musicTitle: music.title, artistName: music.singer)
+                
+                // 이미지
+                self.albumCoverImageView.kf.indicatorType = .activity
+                let imageUrl = URL(string: music.image)
+                self.albumCoverImageView.kf.setImage(with: imageUrl)
             }
             .disposed(by: disposeBag)
         
@@ -89,6 +110,20 @@ class PlayController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(seekbar.snp.top).inset(-50)
             $0.height.equalTo(40)
+        }
+        
+        self.view.addSubview(self.albumCoverImageView)
+        let size = self.view.frame.width - 40 * 2
+        self.albumCoverImageView.snp.makeConstraints {
+            $0.bottom.equalTo(self.lyricsTableView.snp.top).inset(-30)
+            $0.width.height.equalTo(size)
+            $0.centerX.equalToSuperview()
+        }
+        
+        self.view.addSubview(self.playerInfoView)
+        self.playerInfoView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(self.albumCoverImageView.snp.top).inset(-16)
         }
     }
 }
