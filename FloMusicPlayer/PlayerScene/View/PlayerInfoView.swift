@@ -12,7 +12,6 @@ class PlayerInfoView: UIView {
     let musicTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "붉은 노을"
         label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
@@ -20,7 +19,6 @@ class PlayerInfoView: UIView {
     let artistLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "이문세"
         label.font = .systemFont(ofSize: 15)
         return label
     }()
@@ -41,6 +39,7 @@ class PlayerInfoView: UIView {
     private func setupUI() {
         let containerStackView = UIStackView(arrangedSubviews: [musicTitleLabel, artistLabel])
         containerStackView.axis = .vertical
+        containerStackView.spacing = 3
         
         self.addSubview(containerStackView)
         containerStackView.snp.makeConstraints {

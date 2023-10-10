@@ -13,16 +13,16 @@ import RxSwift
 
 class PlayController: UIViewController {
     //MARK: - Properties
-    let viewModel = PlayerViewModel()
-    let disposeBag = DisposeBag()
+    private let viewModel = PlayerViewModel()
+    private let disposeBag = DisposeBag()
     
-    let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
-    let seekbar = PlayerSeekbar()
-    let footerStackView = PlayerFooterStackView()
+    private let controlPanel: [PlayerControlButtonType] = [.repeat, .backward, .play, .forward, .playOrder]
+    private let seekbar = PlayerSeekbar()
+    private let footerStackView = PlayerFooterStackView()
     
-    lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inPlayerView, dataSource: self.viewModel.lyrics))
+    private lazy var lyricsTableView = LyricsTableView(viewModel: .init(config: .inPlayerView, dataSource: self.viewModel.lyrics))
     
-    let albumCoverImageView: UIImageView = {
+    private let albumCoverImageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .clear
         iv.layer.cornerRadius = 10
@@ -31,12 +31,12 @@ class PlayController: UIViewController {
         return iv
     }()
     
-    lazy var playerInfoView = PlayerInfoView(textAlignment: .center)
+    private let playerInfoView = PlayerInfoView(textAlignment: .center)
     
-    lazy var likeButton = self.getToggleButton(image: UIImage(systemName: "heart"))
-    lazy var moreButton = self.getToggleButton(image: UIImage(systemName: "ellipsis"), isRotate: true)
+    private lazy var likeButton = self.getToggleButton(image: UIImage(systemName: "heart"))
+    private lazy var moreButton = self.getToggleButton(image: UIImage(systemName: "ellipsis"), isRotate: true)
     
-    lazy var actionButtonStackView: UIStackView = {
+    private lazy var actionButtonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [likeButton, moreButton])
         stackView.axis = .horizontal
         stackView.spacing = 20
@@ -48,6 +48,10 @@ class PlayController: UIViewController {
         super.viewDidLoad()
         self.setupUI()
         self.bind()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.lyricsTableView.bind()
     }
     
     //MARK: - Bind

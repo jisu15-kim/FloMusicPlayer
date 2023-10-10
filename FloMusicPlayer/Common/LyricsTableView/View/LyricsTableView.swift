@@ -16,6 +16,7 @@ class LyricsTableView: UIView {
     let viewModel: LyricsViewModel
     var currentHighlitingIndex: Int?
     var isUserTouching = false
+    var isAnimatingScroll = false
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -34,7 +35,6 @@ class LyricsTableView: UIView {
         self.delegate = delegate
         super.init(frame: .zero)
         self.setupUI()
-        self.bind()
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +42,7 @@ class LyricsTableView: UIView {
     }
     
     //MARK: - Bind
-    private func bind() {
+    func bind() {
         self.viewModel.playableMusicInfo
             .bind(to: self.tableView.rx.items) { [weak self] tableView, index, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: LyricsCell.identifier, for: IndexPath(row: index, section: 0)) as? LyricsCell else { return UITableViewCell() }
@@ -78,7 +78,7 @@ class LyricsTableView: UIView {
                 if autoScrollStatus == .enable && self.isUserTouching {
                     self.viewModel.autoScrollStatus.accept(.disable)
                 }
-            }
+            }                 
             .disposed(by: disposeBag)
         
         MusicPlayer.shared.currentSecond
@@ -104,7 +104,7 @@ class LyricsTableView: UIView {
             self.addSubview(buttonStack)
             buttonStack.snp.makeConstraints {
                 $0.trailing.equalToSuperview()
-                $0.top.equalToSuperview().inset(20)
+                $0.top.equalToSuperview()
             }
         }
     }
@@ -148,10 +148,15 @@ class LyricsTableView: UIView {
             return
         }
         
-//        print("현재 가사: \(lyric.lyric), Index: \(index)")
-        
-        if isAutoScrollEnable {
-            self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: self.viewModel.lyricViewConfig.authScrollposition, animated: true)
+        // 오토 스크롤 상태일 때 && 중복 스크롤이 불리지 않도록 방어
+        if isAutoScrollEnable && !self.isAnimatingScroll {
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                guard let self = self else { return }
+                self.isAnimatingScroll = true
+                self.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: self.viewModel.lyricViewConfig.authScrollposition, animated: true)
+            }) { [weak self] _ in
+                self?.isAnimatingScroll = false
+            }
         }
         
         /// 현재 보여지는 셀 for문 돌려서
@@ -170,6 +175,7 @@ extension LyricsTableView: UITableViewDelegate {
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print(#function)
         self.viewModel.autoScrollStatus.accept(.disable)
     }
 }
