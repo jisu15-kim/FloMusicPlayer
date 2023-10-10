@@ -33,6 +33,16 @@ class PlayController: UIViewController {
     
     lazy var playerInfoView = PlayerInfoView(textAlignment: .center)
     
+    lazy var likeButton = self.getToggleButton(image: UIImage(systemName: "heart"))
+    lazy var moreButton = self.getToggleButton(image: UIImage(systemName: "ellipsis"), isRotate: true)
+    
+    lazy var actionButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [likeButton, moreButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        return stackView
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +52,7 @@ class PlayController: UIViewController {
     
     //MARK: - Bind
     private func bind() {
+        // 음악 데이터 바인딩
         self.viewModel.playableMusic
             .bind { [weak self] music in
                 guard let self = self,
@@ -61,12 +72,29 @@ class PlayController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        // 가사 터치 이벤트
         self.lyricsTableView.rx.tapGesture()
             .when(.recognized)
             .bind { [weak self] _ in
                 guard let self = self else { return }
-                let lyricsVC = LyricsController(currentTimelineWidth: seekbar.timelineView.frame.width, viewModel: self.viewModel)
+                let lyricsVC = LyricsController(currentTimelineWidth: self.seekbar.timelineView.frame.width, viewModel: self.viewModel)
                 self.present(lyricsVC, animated: false)
+            }
+            .disposed(by: disposeBag)
+        
+        // 버튼 탭 했을 때 status 변경
+        self.likeButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                let targetStatus: LikeButtonStatus = self.viewModel.likeStatus.value == .enable ? .disable : .enable
+                self.viewModel.likeStatus.accept(targetStatus)
+            }
+            .disposed(by: disposeBag)
+        
+        // 좋아요 status 바인딩
+        self.viewModel.likeStatus
+            .bind { [weak self] status in
+                self?.likeButton.setImage(status.buttonImage, for: .normal)
             }
             .disposed(by: disposeBag)
         
@@ -83,16 +111,16 @@ class PlayController: UIViewController {
             $0.height.equalTo(30)
         }
         
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
+        let playerControlStackView = UIStackView()
+        playerControlStackView.axis = .horizontal
+        playerControlStackView.distribution = .equalCentering
         
         self.controlPanel.forEach {
-            stackView.addArrangedSubview($0.getButton)
+            playerControlStackView.addArrangedSubview($0.getButton)
         }
         
-        self.view.addSubview(stackView)
-        stackView.snp.makeConstraints {
+        self.view.addSubview(playerControlStackView)
+        playerControlStackView.snp.makeConstraints {
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.bottom.equalTo(self.footerStackView.snp.top).inset(-5)
             $0.height.equalTo(70)
@@ -101,14 +129,20 @@ class PlayController: UIViewController {
         self.view.addSubview(self.seekbar)
         self.seekbar.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(stackView.snp.top).inset(10)
+            $0.bottom.equalTo(playerControlStackView.snp.top).inset(10)
             $0.height.equalTo(40)
+        }
+        
+        self.view.addSubview(self.actionButtonStackView)
+        self.actionButtonStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(self.seekbar.snp.top).inset(-25)
         }
         
         self.view.addSubview(self.lyricsTableView)
         self.lyricsTableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(seekbar.snp.top).inset(-50)
+            $0.bottom.equalTo(actionButtonStackView.snp.top).inset(-50)
             $0.height.equalTo(40)
         }
         
@@ -125,6 +159,21 @@ class PlayController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(self.albumCoverImageView.snp.top).inset(-16)
         }
+    }
+    
+    private func getToggleButton(image: UIImage?, isRotate: Bool = false) -> UIButton {
+        let button = UIButton(type: .system)
+        let size = CGFloat(40)
+        button.contentMode = .scaleAspectFit
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: size - 15).isActive = true
+        button.widthAnchor.constraint(equalToConstant: size).isActive = true
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        if isRotate {
+            button.transform = button.transform.rotated(by: .pi/2)
+        }
+        return button
     }
 }
 

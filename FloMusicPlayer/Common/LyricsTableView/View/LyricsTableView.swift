@@ -88,15 +88,6 @@ class LyricsTableView: UIView {
             .disposed(by: disposeBag)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("터치!")
-        self.isUserTouching = true
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.isUserTouching = false
-    }
-    
     //MARK: - Methods
     private func setupUI() {
         self.backgroundColor = .clear
