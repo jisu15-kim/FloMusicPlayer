@@ -90,7 +90,8 @@
 		F94802562ACDC86F007D2A0D /* LyricsScene */ = {
 			isa = PBXGroup;
 			children = (
-				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
+				F9E10BE62AD1AE6C007CBFD9 /* View */,
+				F9E10BE72AD1AE7B007CBFD9 /* ViewModel */,
 			);
 			path = LyricsScene;
 			sourceTree = "<group>";
@@ -156,9 +157,10 @@
 		F9B2BC3F2AC98A520029B964 /* LyricsTableView */ = {
 			isa = PBXGroup;
 			children = (
-				F9E10BE62AD1AE6C007CBFD9 /* View */,
-				F9E10BE72AD1AE7B007CBFD9 /* ViewModel */,
 				F9B2BC442ACC5F240029B964 /* LyricsTypeConfig.swift */,
+				F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */,
+				F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */,
+				F9B2BC422AC98BE30029B964 /* LyricsCell.swift */,
 			);
 			path = LyricsTableView;
 			sourceTree = "<group>";
@@ -175,10 +177,9 @@
 		F9E10BE62AD1AE6C007CBFD9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F9B2BC422AC98BE30029B964 /* LyricsCell.swift */,
-				F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */,
+				F9B2BC3F2AC98A520029B964 /* LyricsTableView */,
+				F9ED8B1D2AC7FAC100515973 /* LyricsController.swift */,
 				F94802582ACDC8D9007D2A0D /* LyricsControlButtonStackView.swift */,
-				F973E27C2AD1D6E100BF150B /* LyricsTableViewDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -246,7 +247,6 @@
 		F9ED8B292AC87AAC00515973 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				F9B2BC3F2AC98A520029B964 /* LyricsTableView */,
 				F9DE31642AC59F6D0028885E /* MusicPlayer */,
 				F97549BB2AC1EAB100DA5AFD /* PlayerSeekbar */,
 				F97549B62AC1E2CD00DA5AFD /* PlayerControlButtons */,
