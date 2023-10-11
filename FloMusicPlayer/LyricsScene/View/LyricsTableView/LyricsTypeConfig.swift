@@ -39,7 +39,7 @@ extension LyricsTypeConfig {
     /// 텍스트 폰트
     var lyricFont: UIFont {
         switch self {
-        case .inPlayerView: return .systemFont(ofSize: 14, weight: .regular)
+        case .inPlayerView: return .systemFont(ofSize: 15, weight: .regular)
         case .inLyricView: return .systemFont(ofSize: 16, weight: .regular)
         }
     }

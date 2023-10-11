@@ -16,11 +16,11 @@ enum MusicRouter {
     }
  
     var baseUrlString: String {
-        return "https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com"
+        return "https://drive.google.com/"
     }
     
     var path: String {
-        return "/2020-flo/song.json"
+        return "uc?export=view&id=1oL5bdjtz0gPJ5R1oCmQElW9vcW9b5nxp"
     }
     
     var method: HTTPMethod {

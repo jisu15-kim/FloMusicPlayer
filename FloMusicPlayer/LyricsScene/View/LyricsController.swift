@@ -82,7 +82,7 @@ class LyricsController: UIViewController {
 
         self.view.addSubview(self.lyricsTableView)
         self.lyricsTableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(stackView.snp.top).inset(-50)
             $0.top.equalTo(self.playerInfoView.snp.bottom).inset(-30)
         }

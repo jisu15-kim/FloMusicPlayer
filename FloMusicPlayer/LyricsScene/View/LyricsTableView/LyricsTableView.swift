@@ -93,8 +93,16 @@ class LyricsTableView: UIView {
         self.backgroundColor = .clear
         
         self.addSubview(self.tableView)
-        self.tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        
+        if self.viewModel.lyricViewConfig == .inPlayerView {
+            self.tableView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        } else {
+            self.tableView.snp.makeConstraints {
+                $0.top.bottom.trailing.equalToSuperview()
+                $0.leading.equalToSuperview().inset(16)
+            }
         }
         
         if self.viewModel.lyricViewConfig == .inLyricView {
@@ -125,12 +133,12 @@ class LyricsTableView: UIView {
             }
         }
         
-        self.setLyricCellHighlight(index: currentIndex, lyric: currentLyric)
+        self.configureLyricsScroll(index: currentIndex, lyric: currentLyric)
         self.currentHighlitingIndex = currentIndex
     }
     
-    // 하이라이트 할 index와 가사를 세팅
-    private func setLyricCellHighlight(index: Int?, lyric: PlayableMusicLyricInfo?) {
+    /// 가사 스크롤
+    private func configureLyricsScroll(index: Int?, lyric: PlayableMusicLyricInfo?) {
         
         // 오토 스크롤 상태인지 체크
         var isAutoScrollEnable = self.viewModel.lyricViewConfig.isAutoScrollEnable
@@ -145,6 +153,7 @@ class LyricsTableView: UIView {
             if isAutoScrollEnable {
                 self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             }
+            self.configureLyricsHighlight(targetLyric: nil)
             return
         }
         
@@ -159,11 +168,16 @@ class LyricsTableView: UIView {
             }
         }
         
+        self.configureLyricsHighlight(targetLyric: lyric)
+    }
+    
+    /// 가사 하이라이팅
+    private func configureLyricsHighlight(targetLyric: PlayableMusicLyricInfo?) {
         /// 현재 보여지는 셀 for문 돌려서
         /// 현재의 가사인 경우 하이라이트 enable, 아닌 경우 disable
         for cell in self.tableView.visibleCells {
             guard let cell = cell as? LyricsCell else { return }
-            let isHighlight = cell.lyricItem?.second == lyric.second
+            let isHighlight = cell.lyricItem?.second == targetLyric?.second
             cell.configureHighlight(isHighlight: isHighlight)
         }
     }
