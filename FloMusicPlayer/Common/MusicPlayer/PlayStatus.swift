@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum PlayStatus: Float {
+enum PlayStatus {
     case playing
     case notPlaying
     

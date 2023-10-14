@@ -16,21 +16,24 @@ class PlayerControlButton: UIButton {
     }
     private let disposeBag = DisposeBag()
     //MARK: - Lifecycle
-    init(buttonType: PlayerControlButtonType, handler: (() -> Void)? = nil) {
+    init(buttonType: PlayerControlButtonType) {
         self.playButtonType = buttonType
         super.init(frame: .zero)
-        self.setImage(buttonType.getButtonImage(playStatus: self.playStatus), for: .normal)
         self.addTarget(self, action: #selector(didButtonTapped), for: .touchUpInside)
         self.tintColor = .white
+        
         if buttonType == .play {
             self.bindStatus()
+        } else {
+            // 아닌경우 이미지 설정
+            self.setImage(buttonType.getButtonImage(), for: .normal)
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    //MARK: - Bind(Play인 경우에만)
+    //MARK: - Bind(Play 버튼인 경우만)
     private func bindStatus() {
         MusicPlayer.shared.playStatus
             .bind { [weak self] status in

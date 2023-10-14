@@ -115,13 +115,10 @@ class PlayController: UIViewController {
             $0.height.equalTo(30)
         }
         
-        let playerControlStackView = UIStackView()
+        let buttonStack = self.controlPanel.map { $0.getButton }
+        let playerControlStackView = UIStackView(arrangedSubviews: buttonStack)
         playerControlStackView.axis = .horizontal
         playerControlStackView.distribution = .equalCentering
-        
-        self.controlPanel.forEach {
-            playerControlStackView.addArrangedSubview($0.getButton)
-        }
         
         self.view.addSubview(playerControlStackView)
         playerControlStackView.snp.makeConstraints {

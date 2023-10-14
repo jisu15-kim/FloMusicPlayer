@@ -11,11 +11,12 @@ import Alamofire
 struct MusicNetworkManager {
     func requestPlayableMusic(completion: @escaping (PlayableMusic?) -> Void) {
         let router = MusicRouter.getPlayableMusic
-        
+        print(router.url)
         AF.request(router.url, method: router.method)
             .responseDecodable(of: PlayableMusic.self) { response in
                 switch response.result {
                 case .success(let result):
+                    print(result)
                     completion(result)
                 case .failure(let error):
                     print(error)
@@ -24,5 +25,3 @@ struct MusicNetworkManager {
             }
     }
 }
-
-//https://drive.google.com/file/d/1GvTXNk3NLDFA1tgkYjMuwZi7ZC5LI1u8/view?usp=drive_link

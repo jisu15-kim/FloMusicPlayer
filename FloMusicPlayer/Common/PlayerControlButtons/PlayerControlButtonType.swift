@@ -21,23 +21,12 @@ enum PlayerControlButtonType {
     case playOrder
     /// 재생목록 버튼
     case playList
-    
-    /// 버튼의 이미지
-    func getButtonImage(playStatus: PlayStatus) -> UIImage? {
-        switch self {
-        case .play:
-            return UIImage(systemName: playStatus.iconImageName, withConfiguration: imageConfig)
-        case .backward:
-            return UIImage(systemName: "backward.end.fill", withConfiguration: imageConfig)
-        case .forward:
-            return UIImage(systemName: "forward.end.fill", withConfiguration: imageConfig)
-        case .repeat:
-            return UIImage(systemName: "repeat", withConfiguration: imageConfig)
-        case .playOrder:
-            return UIImage(systemName: "shuffle", withConfiguration: imageConfig)
-        case .playList:
-            return UIImage(systemName: "text.append", withConfiguration: imageConfig)
-        }
+}
+
+extension PlayerControlButtonType {
+    /// 버튼 인스턴스
+    var getButton: UIButton {
+        return PlayerControlButton(buttonType: self)
     }
     
     /// 버튼 image의 config - 사이즈
@@ -52,9 +41,23 @@ enum PlayerControlButtonType {
         }
     }
     
-    /// 버튼 인스턴스
-    var getButton: UIButton {
-        return PlayerControlButton(buttonType: self)
+    /// 버튼의 이미지
+    func getButtonImage(playStatus: PlayStatus? = nil) -> UIImage? {
+        switch self {
+        case .play:
+            guard let playStatus = playStatus else { return UIImage() }
+            return UIImage(systemName: playStatus.iconImageName, withConfiguration: imageConfig)
+        case .backward:
+            return UIImage(systemName: "backward.end.fill", withConfiguration: imageConfig)
+        case .forward:
+            return UIImage(systemName: "forward.end.fill", withConfiguration: imageConfig)
+        case .repeat:
+            return UIImage(systemName: "repeat", withConfiguration: imageConfig)
+        case .playOrder:
+            return UIImage(systemName: "shuffle", withConfiguration: imageConfig)
+        case .playList:
+            return UIImage(systemName: "text.append", withConfiguration: imageConfig)
+        }
     }
     
     func buttonAction(playStatus: PlayStatus) {

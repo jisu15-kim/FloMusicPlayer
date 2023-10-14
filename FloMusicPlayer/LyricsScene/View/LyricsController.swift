@@ -66,13 +66,10 @@ class LyricsController: UIViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(10)
         }
         
-        let stackView = UIStackView()
+        let buttonStack = self.controlPanel.map { $0.getButton }
+        let stackView = UIStackView(arrangedSubviews: buttonStack)
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        
-        self.controlPanel.forEach {
-            stackView.addArrangedSubview($0.getButton)
-        }
         
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
