@@ -172,7 +172,6 @@ class PlayController: UIViewController {
     
     private func getToggleButton(image: UIImage?, isRotate: Bool = false) -> UIButton {
         let button = UIButton(type: .system)
-        let size = CGFloat(40)
         button.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(image, for: .normal)
