@@ -51,8 +51,8 @@ class MusicPlayer {
         self.playerItemStatusObserver = playerItem?.observe(\.status, options: [.new], changeHandler: { [weak self] (playerItem, change) in
             if playerItem.status == .readyToPlay {
                 self?.player?.play()
-                prepareHandler()
                 self?.setupTimeObserver()
+                prepareHandler()
             } else if playerItem.status == .failed {
                 print("플레이 실패")
                 print("Error: \(playerItem.error?.localizedDescription ?? "Unknown error")")

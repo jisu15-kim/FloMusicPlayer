@@ -48,9 +48,6 @@ class PlayController: UIViewController {
         super.viewDidLoad()
         self.setupUI()
         self.bind()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         self.lyricsTableView.bind()
     }
     
@@ -134,31 +131,42 @@ class PlayController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        self.view.addSubview(self.actionButtonStackView)
-        self.actionButtonStackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+        let containerSubViews = [
+            self.playerInfoView,
+            self.albumCoverImageView,
+            self.lyricsTableView,
+//            UIView(),
+            self.actionButtonStackView]
+        
+        let containerStackView = UIStackView(arrangedSubviews: containerSubViews)
+        containerStackView.axis = .vertical
+        containerStackView.distribution = .fill
+        containerStackView.alignment = .center
+        containerStackView.spacing = 25
+
+        self.view.addSubview(containerStackView)
+        containerStackView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(self.seekbar.snp.top).inset(-25)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(50)
         }
         
-        self.view.addSubview(self.lyricsTableView)
-        self.lyricsTableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(actionButtonStackView.snp.top).inset(-50)
+        self.playerInfoView.snp.makeConstraints {
             $0.height.equalTo(40)
         }
         
-        self.view.addSubview(self.albumCoverImageView)
-        let size = self.view.frame.width - 40 * 2
-        self.albumCoverImageView.snp.makeConstraints {
-            $0.bottom.equalTo(self.lyricsTableView.snp.top).inset(-30)
-            $0.width.height.equalTo(size)
-            $0.centerX.equalToSuperview()
+        self.actionButtonStackView.snp.makeConstraints {
+            $0.height.equalTo(30)
         }
         
-        self.view.addSubview(self.playerInfoView)
-        self.playerInfoView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(self.albumCoverImageView.snp.top).inset(-16)
+        self.lyricsTableView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        self.albumCoverImageView.snp.makeConstraints {
+            $0.height.greaterThanOrEqualTo(self.view.frame.width * 0.7).priority(250)
+            $0.width.equalTo(self.albumCoverImageView.snp.height).priority(1000)
         }
     }
     
@@ -167,8 +175,6 @@ class PlayController: UIViewController {
         let size = CGFloat(40)
         button.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: size - 15).isActive = true
-        button.widthAnchor.constraint(equalToConstant: size).isActive = true
         button.setImage(image, for: .normal)
         button.tintColor = .white
         if isRotate {

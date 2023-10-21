@@ -251,6 +251,7 @@ class PlayerSeekbar: UIView {
         self.timeLineWidthConstraint.isActive = true
         guard let duration = self.musicDuration else { return }
         self.durationTimeLabel.text = self.secondToTimecode(second: Int(duration))
+        print("👉 seekbar Width: \(self.frame.width)")
     }
     
     private func acceptTimeline(withTouch touch: UITouch?) {

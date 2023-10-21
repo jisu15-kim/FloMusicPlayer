@@ -15,7 +15,6 @@ class LyricsTableView: UIView {
     weak var delegate: LyricsTableViewDelegate?
     let viewModel: LyricsViewModel
     var currentHighlitingIndex: Int?
-    var isUserTouching = false
     var isAnimatingScroll = false
     
     lazy var tableView: UITableView = {
@@ -43,6 +42,7 @@ class LyricsTableView: UIView {
     
     //MARK: - Bind
     func bind() {
+        // DataSource 바인딩
         self.viewModel.playableMusicInfo
             .bind(to: self.tableView.rx.items) { [weak self] tableView, index, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: LyricsCell.identifier, for: IndexPath(row: index, section: 0)) as? LyricsCell else { return UITableViewCell() }
@@ -56,6 +56,7 @@ class LyricsTableView: UIView {
             }
             .disposed(by: disposeBag)
         
+        // 유저 가사 탭 인터랙션 바인딩
         self.tableView.rx.modelSelected(PlayableMusicLyricInfo.self)
             .bind { [weak self] lyric in
                 guard let self = self else { return }
@@ -67,18 +68,6 @@ class LyricsTableView: UIView {
                     self.delegate?.needViewDismiss()
                 }
             }
-            .disposed(by: disposeBag)
-        
-        self.tableView.rx.didScroll
-            .subscribe { [weak self] _ in
-                guard let self = self else { return }
-                let autoScrollStatus = self.viewModel.autoScrollStatus.value
-                
-                // 오토 스크롤 enable / 유저 touching 상태인 경우 disable로
-                if autoScrollStatus == .enable && self.isUserTouching {
-                    self.viewModel.autoScrollStatus.accept(.disable)
-                }
-            }                 
             .disposed(by: disposeBag)
         
         MusicPlayer.shared.currentSecond
@@ -189,7 +178,6 @@ extension LyricsTableView: UITableViewDelegate {
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print(#function)
         self.viewModel.autoScrollStatus.accept(.disable)
     }
 }

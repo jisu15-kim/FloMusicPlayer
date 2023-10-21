@@ -25,6 +25,7 @@
 		F97549C22AC3400800DA5AFD /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C12AC3400800DA5AFD /* RxRelay */; };
 		F97549C42AC3400800DA5AFD /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C32AC3400800DA5AFD /* RxSwift */; };
 		F97549C72AC3402200DA5AFD /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F97549C62AC3402200DA5AFD /* RxGesture */; };
+		F99D9BF82AE3FBF4001EADE9 /* songData.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D9BF72AE3FBF4001EADE9 /* songData.json */; };
 		F9A725632AC890AC00826D91 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A725622AC890AC00826D91 /* PlayerViewModel.swift */; };
 		F9B2BC412AC98A5D0029B964 /* LyricsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */; };
 		F9B2BC432AC98BE30029B964 /* LyricsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B2BC422AC98BE30029B964 /* LyricsCell.swift */; };
@@ -54,6 +55,7 @@
 		F97549B72AC1E2EF00DA5AFD /* PlayerControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButton.swift; sourceTree = "<group>"; };
 		F97549B92AC1E49000DA5AFD /* PlayerControlButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButtonType.swift; sourceTree = "<group>"; };
 		F97549BC2AC1EAD800DA5AFD /* PlayerSeekbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSeekbar.swift; sourceTree = "<group>"; };
+		F99D9BF72AE3FBF4001EADE9 /* songData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = songData.json; sourceTree = "<group>"; };
 		F9A725622AC890AC00826D91 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		F9B2BC402AC98A5D0029B964 /* LyricsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsTableView.swift; sourceTree = "<group>"; };
 		F9B2BC422AC98BE30029B964 /* LyricsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsCell.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		F9ED8B262AC87A5300515973 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F99D9BF72AE3FBF4001EADE9 /* songData.json */,
 				F9A725622AC890AC00826D91 /* PlayerViewModel.swift */,
 			);
 			path = ViewModel;
@@ -339,6 +342,7 @@
 			files = (
 				F97549A62AC1E0DA00DA5AFD /* LaunchScreen.storyboard in Resources */,
 				F97549A32AC1E0DA00DA5AFD /* Assets.xcassets in Resources */,
+				F99D9BF82AE3FBF4001EADE9 /* songData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

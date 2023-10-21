@@ -36,12 +36,12 @@ class LyricsController: UIViewController {
         self.setDismissButton(inset: 16)
         self.setupUI()
         self.bind()
+        self.lyricsTableView.bind()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.seekbar.configureSeekbar()
-        self.lyricsTableView.bind()
     }
     
     //MARK: - Bind

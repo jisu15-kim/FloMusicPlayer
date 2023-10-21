@@ -10,6 +10,22 @@ import Alamofire
 
 struct MusicNetworkManager {
     func requestPlayableMusic(completion: @escaping (PlayableMusic?) -> Void) {
+        guard let path = Bundle.main.path(forResource: "songData", ofType: "json") else {
+            return
+        }
+        
+        guard let jsonString = try? String(contentsOfFile: path) else {
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        let data = jsonString.data(using: .utf8)
+        if let data = data,
+           let playableMusic = try? decoder.decode(PlayableMusic.self, from: data) {
+           completion(playableMusic)
+        }
+        return
+        
         let router = MusicRouter.getPlayableMusic
         print(router.url)
         AF.request(router.url, method: router.method)
